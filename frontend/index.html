@@ -1,1 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>J.A.R.V.I.S X</title>
+
+<style>
+
+body{
+    background:#000;
+    color:#00ffff;
+    font-family:monospace;
+    padding:20px;
+    margin:0;
+}
+
+h1{
+    text-align:center;
+    letter-spacing:5px;
+    text-shadow:0 0 15px #00ffff;
+}
+
+#status{
+    text-align:center;
+    margin:15px 0;
+    font-weight:bold;
+    color:#ff3333;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+}
+
+textarea{
+    width:100%;
+    height:120px;
+    background:#001414;
+    color:#00ffff;
+    border:1px solid #00ffff;
+    padding:12px;
+    box-sizing:border-box;
+    font-family:monospace;
+    font-size:15px;
+    outline:none;
+}
+
+textarea:focus{
+    box-shadow:0 0 10px #00ffff;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    margin-top:12px;
+    background:#00ffff;
+    color:#000;
+    border:none;
+    font-weight:bold;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:active{
+    transform:scale(0.98);
+}
+
+#reply{
+    border:1px solid #00ffff;
+    padding:15px;
+    margin-top:18px;
+    min-height:120px;
+    white-space:pre-wrap;
+    color:#fff;
+    background:#001010;
+    line-height:1.5;
+}
+
+.loading{
+    color:#00ffff;
+}
+
+.error{
+    color:#ff4444;
+}
+
+.footer{
+    text-align:center;
+    margin-top:20px;
+    color:#555;
+    font-size:12px;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+<h1>J.A.R.V.I.S X</h1>
+
+<div id="status">
+BRAIN: NOT CONNECTED
+</div>
+
+
+<textarea id="prompt">Hello J.A.R.V.I.S</textarea>
+
+
+<button onclick="ask()">
+SEND REQUEST
+</button>
+
+
+<div id="reply">
+Waiting for response...
+</div>
+
+
+<div class="footer">
+J.A.R.V.I.S X • AI CORE
+</div>
+
+</div>
+
+
+<script>
+
+
+// =====================================================
+// 🔑 GEMINI API KEY
+// =====================================================
+
+// PASTE YOUR ACTUAL API KEY BETWEEN THE QUOTES.
+// DO NOT SEND YOUR API KEY TO ANYONE.
+
+const API_KEY = "PASTE_YOUR_NEW_AUTH_API_KEY_HERE";
+
+
+// =====================================================
+// 🤖 MODEL
+// =====================================================
+
+const MODEL = "gemini-3.6-flash";
+
+
+// =====================================================
+// 🧠 JARVIS PERSONALITY
+// =====================================================
+
+const SYSTEM_INSTRUCTION = `
+You are J.A.R.V.I.S X, a friendly futuristic personal AI assistant.
+
+Your user's name is Vishnu.
+
+You should be intelligent, helpful, calm and friendly.
+
+You can help with:
+- JEE preparation
+- Physics
+- Chemistry
+- Mathematics
+- Programming
+- AI projects
+- Science
+- Space and astronomy
+- General questions
+- Study planning
+
+For JEE questions:
+- Explain concepts clearly.
+- Show calculations step by step.
+- Give the final answer clearly.
+- If it is a numerical question, explain the numerical solution.
+
+Speak naturally.
+Do not unnecessarily repeat the user's question.
+
+Your personality should feel like an advanced futuristic AI assistant.
+`;
+
+
+// =====================================================
+// 🚀 ASK JARVIS
+// =====================================================
+
+async function ask(){
+
+    const promptBox = document.getElementById("prompt");
+    const replyBox = document.getElementById("reply");
+    const statusBox = document.getElementById("status");
+
+    const userPrompt = promptBox.value.trim();
+
+
+    // Empty input check
+    if(!userPrompt){
+
+        replyBox.innerText = "Please enter a message.";
+
+        return;
+    }
+
+
+    // API key check
+    if(
+        !API_KEY ||
+        API_KEY === "PASTE_YOUR_NEW_AUTH_API_KEY_HERE"
+    ){
+
+        replyBox.innerText =
+            "ERROR: Please paste your Gemini API key in the code.";
+
+        return;
+    }
+
+
+    // UI
+    statusBox.innerText = "BRAIN: CONNECTING...";
+    statusBox.style.color = "#ffff00";
+
+    replyBox.className = "loading";
+    replyBox.innerText = "J.A.R.V.I.S is thinking...";
+
+
+    // =================================================
+    // API URL
+    // =================================================
+
+    const url =
+        "https://generativelanguage.googleapis.com/"
+        + "v1beta/models/"
+        + MODEL
+        + ":generateContent";
+
+
+    try{
+
+        const response = await fetch(url, {
+
+            method: "POST",
+
+            headers: {
+
+                "Content-Type": "application/json",
+
+                "x-goog-api-key": API_KEY
+
+            },
+
+            body: JSON.stringify({
+
+                systemInstruction: {
+
+                    parts: [
+
+                        {
+                            text: SYSTEM_INSTRUCTION
+                        }
+
+                    ]
+
+                },
+
+                contents: [
+
+                    {
+
+                        role: "user",
+
+                        parts: [
+
+                            {
+                                text: userPrompt
+                            }
+
+                        ]
+
+                    }
+
+                ]
+
+            })
+
+        });
+
+
+        // =================================================
+        // READ RESPONSE
+        // =================================================
+
+        const data = await response.json();
+
+
+        // =================================================
+        // ERROR HANDLING
+        // =================================================
+
+        if(!response.ok){
+
+            console.log("Gemini API Error:", data);
+
+            replyBox.className = "error";
+
+            replyBox.innerText =
+                "ERROR: "
+                + (
+                    data?.error?.message
+                    || "Unknown API error."
+                );
+
+            statusBox.innerText =
+                "BRAIN: CONNECTION FAILED";
+
+            statusBox.style.color = "#ff3333";
+
+            return;
+        }
+
+
+        // =================================================
+        // GET AI TEXT
+        // =================================================
+
+        const text =
+            data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+
+        if(!text){
+
+            replyBox.className = "error";
+
+            replyBox.innerText =
+                "ERROR: J.A.R.V.I.S returned no text.";
+
+            statusBox.innerText =
+                "BRAIN: NO RESPONSE";
+
+            statusBox.style.color = "#ff3333";
+
+            console.log("Full Gemini response:", data);
+
+            return;
+        }
+
+
+        // =================================================
+        // SUCCESS
+        // =================================================
+
+        replyBox.className = "";
+
+        replyBox.innerText = text;
+
+        statusBox.innerText =
+            "BRAIN: ONLINE";
+
+        statusBox.style.color = "#00ff66";
+
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        replyBox.className = "error";
+
+        replyBox.innerText =
+            "CONNECTION ERROR:\n\n"
+            + error.message;
+
+        statusBox.innerText =
+            "BRAIN: CONNECTION FAILED";
+
+        statusBox.style.color = "#ff3333";
+
+    }
+
+}
+
+</script>
+
+</body>
+  </html>
