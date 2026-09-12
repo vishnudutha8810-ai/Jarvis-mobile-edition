@@ -1,387 +1,401 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>J.A.R.V.I.S X</title>
+  <title>J.A.R.V.I.S X</title>
 
-<style>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-body{
-    background:#000;
-    color:#00ffff;
-    font-family:monospace;
-    padding:20px;
-    margin:0;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at center, #062b35 0%, #02090d 35%, #000 75%);
+      color: #00ffff;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow-x: hidden;
+    }
 
-h1{
-    text-align:center;
-    letter-spacing:5px;
-    text-shadow:0 0 15px #00ffff;
-}
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
 
-#status{
-    text-align:center;
-    margin:15px 0;
-    font-weight:bold;
-    color:#ff3333;
-}
+    .header {
+      text-align: center;
+      padding: 20px 10px;
+      border-bottom: 1px solid #00ffff55;
+    }
 
-.container{
-    max-width:700px;
-    margin:auto;
-}
+    .title {
+      font-size: 38px;
+      letter-spacing: 8px;
+      font-weight: bold;
+      text-shadow:
+        0 0 10px #00ffff,
+        0 0 25px #00ffff;
+    }
 
-textarea{
-    width:100%;
-    height:120px;
-    background:#001414;
-    color:#00ffff;
-    border:1px solid #00ffff;
-    padding:12px;
-    box-sizing:border-box;
-    font-family:monospace;
-    font-size:15px;
-    outline:none;
-}
+    .subtitle {
+      margin-top: 8px;
+      color: #8fffff;
+      font-size: 13px;
+      letter-spacing: 3px;
+    }
 
-textarea:focus{
-    box-shadow:0 0 10px #00ffff;
-}
+    .status {
+      margin: 20px auto;
+      width: fit-content;
+      padding: 10px 20px;
+      border: 1px solid #00ffff;
+      border-radius: 25px;
+      box-shadow: 0 0 15px #00ffff55;
+      font-weight: bold;
+    }
 
-button{
-    width:100%;
-    padding:15px;
-    margin-top:12px;
-    background:#00ffff;
-    color:#000;
-    border:none;
-    font-weight:bold;
-    font-size:16px;
-    cursor:pointer;
-}
+    .online {
+      color: #00ff99;
+    }
 
-button:active{
-    transform:scale(0.98);
-}
+    .offline {
+      color: #ff4444;
+    }
 
-#reply{
-    border:1px solid #00ffff;
-    padding:15px;
-    margin-top:18px;
-    min-height:120px;
-    white-space:pre-wrap;
-    color:#fff;
-    background:#001010;
-    line-height:1.5;
-}
+    .core {
+      width: 150px;
+      height: 150px;
+      margin: 30px auto;
+      border: 2px solid #00ffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 0 20px #00ffff,
+        0 0 60px #0088ff55,
+        inset 0 0 30px #00ffff55;
+      animation: pulse 2s infinite;
+    }
 
-.loading{
-    color:#00ffff;
-}
+    .core-inner {
+      width: 75px;
+      height: 75px;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      letter-spacing: 2px;
+      box-shadow: 0 0 20px #ffffff;
+    }
 
-.error{
-    color:#ff4444;
-}
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
 
-.footer{
-    text-align:center;
-    margin-top:20px;
-    color:#555;
-    font-size:12px;
-}
+      50% {
+        transform: scale(1.06);
+      }
+    }
 
-</style>
+    .panel {
+      margin-top: 25px;
+      padding: 20px;
+      border: 1px solid #00ffff66;
+      border-radius: 15px;
+      background: #001217aa;
+      box-shadow: 0 0 25px #00ffff22;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #8fffff;
+      font-size: 14px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      resize: vertical;
+      padding: 15px;
+      background: #000b0f;
+      color: #00ffff;
+      border: 1px solid #00ffff;
+      border-radius: 10px;
+      outline: none;
+      font-size: 16px;
+    }
+
+    textarea:focus {
+      box-shadow: 0 0 15px #00ffff55;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #00ffff;
+      color: #001014;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      box-shadow: 0 0 20px #00ffff;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: wait;
+    }
+
+    .reply-title {
+      color: #00ffff;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    #reply {
+      min-height: 120px;
+      padding: 15px;
+      border: 1px solid #00ffff55;
+      border-radius: 10px;
+      background: #00080c;
+      color: white;
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      padding: 20px;
+      color: #557777;
+      font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .title {
+        font-size: 28px;
+        letter-spacing: 5px;
+      }
+
+      .core {
+        width: 120px;
+        height: 120px;
+      }
+
+      .core-inner {
+        width: 60px;
+        height: 60px;
+      }
+
+      .container {
+        padding: 12px;
+      }
+    }
+  </style>
 </head>
-
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-<h1>J.A.R.V.I.S X</h1>
+    <div class="header">
+      <div class="title">J.A.R.V.I.S X</div>
+      <div class="subtitle">PERSONAL ARTIFICIAL INTELLIGENCE</div>
+    </div>
 
-<div id="status">
-BRAIN: NOT CONNECTED
-</div>
+    <div id="status" class="status online">
+      ● BRAIN: ONLINE
+    </div>
 
+    <div class="core">
+      <div class="core-inner">
+        JARVIS
+      </div>
+    </div>
 
-<textarea id="prompt">Hello J.A.R.V.I.S</textarea>
+    <div class="panel">
 
+      <label for="prompt">
+        ENTER COMMAND / QUESTION
+      </label>
 
-<button onclick="ask()">
-SEND REQUEST
-</button>
+      <textarea
+        id="prompt"
+        placeholder="Ask JARVIS anything..."
+      ></textarea>
 
+      <button id="sendButton" onclick="askJarvis()">
+        SEND TO JARVIS
+      </button>
 
-<div id="reply">
-Waiting for response...
-</div>
+    </div>
 
+    <div class="panel">
 
-<div class="footer">
-J.A.R.V.I.S X • AI CORE
-</div>
+      <div class="reply-title">
+        🤖 JARVIS RESPONSE
+      </div>
 
-</div>
+      <div id="reply">
+        Waiting for your command...
+      </div>
 
+    </div>
 
-<script>
+    <div class="footer">
+      J.A.R.V.I.S X • Secure Cloud Backend
+    </div>
 
-
-// =====================================================
-// 🔑 GEMINI API KEY
-// =====================================================
-
-// PASTE YOUR ACTUAL API KEY BETWEEN THE QUOTES.
-// DO NOT SEND YOUR API KEY TO ANYONE.
-
-
-// =====================================================
-// 🤖 MODEL
-// =====================================================
-
-const MODEL = "gemini-3.6-flash";
-
-
-// =====================================================
-// 🧠 JARVIS PERSONALITY
-// =====================================================
-
-const SYSTEM_INSTRUCTION = `
-You are J.A.R.V.I.S X, a friendly futuristic personal AI assistant.
-
-Your user's name is Vishnu.
-
-You should be intelligent, helpful, calm and friendly.
-
-You can help with:
-- JEE preparation
-- Physics
-- Chemistry
-- Mathematics
-- Programming
-- AI projects
-- Science
-- Space and astronomy
-- General questions
-- Study planning
-
-For JEE questions:
-- Explain concepts clearly.
-- Show calculations step by step.
-- Give the final answer clearly.
-- If it is a numerical question, explain the numerical solution.
-
-Speak naturally.
-Do not unnecessarily repeat the user's question.
-
-Your personality should feel like an advanced futuristic AI assistant.
-`;
+  </div>
 
 
-// =====================================================
-// 🚀 ASK JARVIS
-// =====================================================
+  <script>
 
-async function ask(){
+    /*
+      IMPORTANT:
+      No Gemini API key is stored in this website.
 
-    const promptBox = document.getElementById("prompt");
-    const replyBox = document.getElementById("reply");
-    const statusBox = document.getElementById("status");
+      The request goes to our Cloudflare Worker.
+      The Gemini API key stays safely inside
+      Cloudflare Worker Secrets.
+    */
 
-    const userPrompt = promptBox.value.trim();
+    const WORKER_URL =
+      "https://jarvis-api-594e.vishnudutha8810.workers.dev";
 
 
-    // Empty input check
-    if(!userPrompt){
+    async function askJarvis() {
 
-        replyBox.innerText = "Please enter a message.";
+      const promptBox = document.getElementById("prompt");
+      const replyBox = document.getElementById("reply");
+      const button = document.getElementById("sendButton");
+      const status = document.getElementById("status");
 
+      const prompt = promptBox.value.trim();
+
+      if (!prompt) {
+        replyBox.textContent =
+          "Please enter a question or command.";
         return;
-    }
+      }
 
 
-    // API key check
-    if(
-        !API_KEY ||
-        API_KEY === "PASTE_YOUR_NEW_AUTH_API_KEY_HERE"
-    ){
+      button.disabled = true;
+      button.textContent = "JARVIS IS THINKING...";
 
-        replyBox.innerText =
-            "ERROR: Please paste your Gemini API key in the code.";
+      status.textContent = "● BRAIN: PROCESSING";
+      status.className = "status online";
 
-        return;
-    }
+      replyBox.textContent =
+        "Connecting to JARVIS X secure backend...";
 
 
-    // UI
-    statusBox.innerText = "BRAIN: CONNECTING...";
-    statusBox.style.color = "#ffff00";
+      try {
 
-    replyBox.className = "loading";
-    replyBox.innerText = "J.A.R.V.I.S is thinking...";
+        const response = await fetch(WORKER_URL, {
 
+          method: "POST",
 
-    // =================================================
-    // API URL
-    // =================================================
+          headers: {
+            "Content-Type": "application/json"
+          },
 
-    const url =
-        "https://generativelanguage.googleapis.com/"
-        + "v1beta/models/"
-        + MODEL
-        + ":generateContent";
-
-
-    try{
-
-        const response = await fetch(url, {
-
-            method: "POST",
-
-            headers: {
-
-                "Content-Type": "application/json",
-
-                "x-goog-api-key": API_KEY
-
-            },
-
-            body: JSON.stringify({
-
-                systemInstruction: {
-
-                    parts: [
-
-                        {
-                            text: SYSTEM_INSTRUCTION
-                        }
-
-                    ]
-
-                },
-
-                contents: [
-
-                    {
-
-                        role: "user",
-
-                        parts: [
-
-                            {
-                                text: userPrompt
-                            }
-
-                        ]
-
-                    }
-
-                ]
-
-            })
+          body: JSON.stringify({
+            prompt: prompt
+          })
 
         });
 
 
-        // =================================================
-        // READ RESPONSE
-        // =================================================
-
         const data = await response.json();
 
 
-        // =================================================
-        // ERROR HANDLING
-        // =================================================
+        if (!response.ok) {
 
-        if(!response.ok){
+          throw new Error(
+            data.error || "Backend request failed."
+          );
 
-            console.log("Gemini API Error:", data);
-
-            replyBox.className = "error";
-
-            replyBox.innerText =
-                "ERROR: "
-                + (
-                    data?.error?.message
-                    || "Unknown API error."
-                );
-
-            statusBox.innerText =
-                "BRAIN: CONNECTION FAILED";
-
-            statusBox.style.color = "#ff3333";
-
-            return;
         }
 
 
-        // =================================================
-        // GET AI TEXT
-        // =================================================
+        replyBox.textContent =
+          data.reply || "JARVIS returned no response.";
 
-        const text =
-            data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        status.textContent =
+          "● BRAIN: ONLINE";
 
+        status.className =
+          "status online";
 
-        if(!text){
+      }
 
-            replyBox.className = "error";
-
-            replyBox.innerText =
-                "ERROR: J.A.R.V.I.S returned no text.";
-
-            statusBox.innerText =
-                "BRAIN: NO RESPONSE";
-
-            statusBox.style.color = "#ff3333";
-
-            console.log("Full Gemini response:", data);
-
-            return;
-        }
-
-
-        // =================================================
-        // SUCCESS
-        // =================================================
-
-        replyBox.className = "";
-
-        replyBox.innerText = text;
-
-        statusBox.innerText =
-            "BRAIN: ONLINE";
-
-        statusBox.style.color = "#00ff66";
-
-
-    }
-
-    catch(error){
+      catch (error) {
 
         console.error(error);
 
-        replyBox.className = "error";
+        replyBox.textContent =
+          "JARVIS CONNECTION ERROR\n\n" +
+          error.message;
 
-        replyBox.innerText =
-            "CONNECTION ERROR:\n\n"
-            + error.message;
+        status.textContent =
+          "● BRAIN: CONNECTION ERROR";
 
-        statusBox.innerText =
-            "BRAIN: CONNECTION FAILED";
+        status.className =
+          "status offline";
 
-        statusBox.style.color = "#ff3333";
+      }
+
+      finally {
+
+        button.disabled = false;
+
+        button.textContent =
+          "SEND TO JARVIS";
+
+      }
 
     }
 
-}
 
-</script>
+    /*
+      Press Enter with Ctrl/Command
+      to send the question.
+    */
+
+    document
+      .getElementById("prompt")
+      .addEventListener("keydown", function(event) {
+
+        if (
+          event.key === "Enter" &&
+          (event.ctrlKey || event.metaKey)
+        ) {
+
+          askJarvis();
+
+        }
+
+      });
+
+  </script>
 
 </body>
-  </html>
+</html>
