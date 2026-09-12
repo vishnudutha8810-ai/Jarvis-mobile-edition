@@ -1,1 +1,39 @@
+const chat = document.getElementById('chat');
+const input = document.getElementById('msg');
+const sendButton = document.getElementById('send');
 
+sendButton.onclick = () => {
+
+    const text = input.value.trim();
+
+    if (!text) {
+        return;
+    }
+
+    add('YOU: ' + text, 'user');
+
+    input.value = '';
+
+    add('J.A.R.V.I.S: Processing...', 'ai');
+
+    setTimeout(() => {
+
+        chat.lastChild.innerText =
+            'J.A.R.V.I.S: Systems online. How may I assist you, Boss?';
+
+    }, 1000);
+};
+
+
+function add(text, who) {
+
+    const message = document.createElement('div');
+
+    message.className = 'msg ' + who;
+
+    message.innerText = text;
+
+    chat.appendChild(message);
+
+    chat.scrollTop = chat.scrollHeight;
+}
