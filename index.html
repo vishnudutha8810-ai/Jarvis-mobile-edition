@@ -5,511 +5,364 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-<title>J.A.R.V.I.S X</title>
-
+<title>Jarvis - Mobile Edition</title>
 
 <style>
 
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
 }
 
-html,
-body {
+body{
+    margin:0;
+    min-height:100vh;
 
-    margin: 0;
-    padding: 0;
+    background:
+        radial-gradient(
+            circle at center,
+            #06252c 0%,
+            #02090d 40%,
+            #000 78%
+        );
 
-    min-height: 100%;
+    color:#00eaff;
 
-    background: #000;
+    font-family:monospace;
 
-    color: #00ffff;
-
-    font-family:
-        "Courier New",
-        monospace;
-
+    overflow-x:hidden;
 }
 
-body {
-    overflow-x: hidden;
-}
+.container{
+    width:100%;
+    max-width:600px;
 
+    margin:auto;
 
-.app {
-
-    width: 100%;
-    max-width: 520px;
-
-    margin: auto;
-
-    padding: 18px 14px 35px;
+    padding:18px;
 }
 
 
-/* ================= HEADER ================= */
+/* ==============================
+   HEADER
+   ============================== */
 
-.header {
+.header{
+    text-align:center;
 
-    text-align: center;
-
-    padding:
-        8px 0 18px;
-
-    border-bottom:
-        1px solid #073f43;
+    padding:12px 0 18px;
 }
 
+.logo{
+    font-size:32px;
 
-.logo {
+    font-weight:bold;
 
-    font-size: 30px;
+    letter-spacing:7px;
 
-    font-weight: bold;
-
-    letter-spacing: 7px;
-
-    color: #00ffff;
+    color:#00eaff;
 
     text-shadow:
-        0 0 8px #00ffff,
-        0 0 20px #00ffff,
-        0 0 35px #00ffff;
+        0 0 8px #00eaff,
+        0 0 20px #00eaff,
+        0 0 40px rgba(0,234,255,.5);
+}
+
+.subtitle{
+    margin-top:6px;
+
+    font-size:11px;
+
+    letter-spacing:4px;
+
+    color:#76f7ff;
 }
 
 
-.edition {
+/* ==============================
+   CORE
+   ============================== */
 
-    margin-top: 7px;
+.core-area{
+    display:flex;
 
-    font-size: 10px;
+    justify-content:center;
+    align-items:center;
 
-    letter-spacing: 4px;
-
-    color: #5bdede;
+    margin:10px 0 18px;
 }
 
+.core{
+    width:150px;
+    height:150px;
 
-/* ================= CORE ================= */
+    border:2px solid #00eaff;
 
-.core-section {
+    border-radius:50%;
 
-    text-align: center;
+    position:relative;
 
-    padding:
-        25px 0 20px;
-}
+    display:flex;
 
+    align-items:center;
 
-.core {
-
-    position: relative;
-
-    width: 145px;
-    height: 145px;
-
-    margin: auto;
-
-    border:
-        2px solid #00ffff;
-
-    border-radius: 50%;
+    justify-content:center;
 
     box-shadow:
-        0 0 10px #00ffff,
-        0 0 30px #00ffff,
-        inset 0 0 25px #00ffff55;
+        0 0 15px #00eaff,
+        0 0 40px rgba(0,234,255,.35),
+        inset 0 0 25px rgba(0,234,255,.25);
 
-    animation:
-        corePulse 2.5s infinite
-        ease-in-out;
+    animation:corePulse 2.5s infinite;
 }
 
+.core::before{
+    content:"";
 
-.core::before {
+    position:absolute;
 
-    content: "";
+    width:90px;
+    height:90px;
 
-    position: absolute;
+    border:2px solid #00eaff;
 
-    inset: 13px;
+    border-radius:50%;
+}
 
-    border:
-        2px solid #00ffff;
+.core::after{
+    content:"";
 
-    border-radius: 50%;
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    background:#00eaff;
 
     box-shadow:
-        0 0 15px #00ffff;
+        0 0 15px #00eaff,
+        0 0 35px #00eaff;
 }
 
+@keyframes corePulse{
 
-.core::after {
-
-    content: "";
-
-    position: absolute;
-
-    inset: 30px;
-
-    border:
-        2px solid white;
-
-    border-radius: 50%;
-
-    box-shadow:
-        0 0 10px white,
-        inset 0 0 15px #ffffff55;
-}
-
-
-.core-center {
-
-    position: absolute;
-
-    inset: 0;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    z-index: 3;
-
-    color: white;
-
-    font-size: 11px;
-
-    letter-spacing: 3px;
-}
-
-
-.core-status {
-
-    margin-top: 15px;
-
-    color: #66ffff;
-
-    font-size: 10px;
-
-    letter-spacing: 4px;
-}
-
-
-@keyframes corePulse {
-
-    0%,100% {
-
-        transform: scale(1);
-
-        filter: brightness(1);
+    0%,100%{
+        transform:scale(1);
     }
 
-    50% {
-
-        transform: scale(1.04);
-
-        filter: brightness(1.3);
+    50%{
+        transform:scale(1.05);
     }
 
 }
 
+.core-status{
+    text-align:center;
 
-/* ================= PANELS ================= */
+    margin-bottom:20px;
 
-.panel {
+    color:#00ffcc;
 
-    border:
-        1px solid #07575a;
+    font-size:12px;
 
-    background:
-        #010a0c;
+    letter-spacing:4px;
+}
+
+
+/* ==============================
+   PANELS
+   ============================== */
+
+.panel{
+    border:1px solid #00eaff;
+
+    padding:14px;
+
+    margin-bottom:15px;
+
+    background:rgba(0,20,25,.45);
 
     box-shadow:
-        0 0 15px #00ffff15,
-        inset 0 0 20px #00ffff08;
+        0 0 10px rgba(0,234,255,.12);
+}
 
-    margin-top: 15px;
+.panel-title{
+    margin-bottom:13px;
 
-    padding: 16px;
+    color:#fff;
+
+    font-size:12px;
+
+    letter-spacing:3px;
 }
 
 
-.panel-title {
+/* ==============================
+   SYSTEM STATUS
+   ============================== */
 
-    color: #00ffff;
+.status-row{
+    display:flex;
 
-    font-size: 13px;
+    justify-content:space-between;
 
-    letter-spacing: 3px;
+    padding:6px 0;
 
-    margin-bottom: 13px;
+    font-size:12px;
+}
+
+.online{
+    color:#00ff88;
+}
+
+.ready{
+    color:#00eaff;
 }
 
 
-/* ================= STATUS ================= */
+/* ==============================
+   RESPONSE
+   ============================== */
 
-.status-row {
+#reply{
+    min-height:130px;
 
-    display: flex;
+    padding:14px;
 
-    justify-content: space-between;
+    border:1px solid #00eaff;
 
-    padding: 5px 0;
+    background:rgba(0,10,15,.65);
 
-    font-size: 11px;
+    color:#fff;
 
-    letter-spacing: 1px;
+    line-height:1.6;
+
+    white-space:pre-wrap;
 }
 
 
-.online {
+/* ==============================
+   TEXT INPUT
+   ============================== */
 
-    color: #00ff66;
+textarea{
+    width:100%;
 
-    text-shadow:
-        0 0 8px #00ff66;
-}
+    min-height:90px;
 
+    resize:vertical;
 
-.locked {
+    padding:13px;
 
-    color: #ff304f;
+    background:#001015;
 
-    text-shadow:
-        0 0 8px #ff304f;
-}
+    border:1px solid #00eaff;
 
+    color:#00eaff;
 
-/* ================= CHAT ================= */
+    font-family:monospace;
 
-.chat-box {
+    font-size:14px;
 
-    min-height: 180px;
-
-    max-height: 380px;
-
-    overflow-y: auto;
-
-    border:
-        1px solid #06484c;
-
-    background:
-        #000607;
-
-    padding: 14px;
-
-    color: #dfffff;
-
-    font-family:
-        Arial,
-        sans-serif;
-
-    font-size: 14px;
-
-    line-height: 1.6;
-
-    white-space: pre-wrap;
-}
-
-
-.waiting {
-
-    color: #496d70;
-
-    text-align: center;
-
-    padding-top: 55px;
-}
-
-
-/* ================= COMMAND ================= */
-
-.input-area {
-
-    margin-top: 15px;
-
-    display: flex;
-
-    gap: 7px;
-}
-
-
-#prompt {
-
-    flex: 1;
-
-    min-width: 0;
-
-    height: 46px;
-
-    background:
-        #010a0c;
-
-    color: #00ffff;
-
-    border:
-        1px solid #00ffff;
-
-    padding: 10px;
-
-    outline: none;
-
-    font-family:
-        "Courier New",
-        monospace;
-
-    font-size: 13px;
-}
-
-
-#prompt::placeholder {
-
-    color: #527174;
-}
-
-
-/* ================= MIC ================= */
-
-#mic {
-
-    width: 52px;
-
-    height: 46px;
-
-    border:
-        1px solid #00ffff;
-
-    background:
-        #00191d;
-
-    color: #00ffff;
-
-    font-size: 20px;
-
-    cursor: pointer;
-}
-
-
-#mic:hover {
+    outline:none;
 
     box-shadow:
-        0 0 15px #00ffff;
+        0 0 8px rgba(0,234,255,.15);
+}
+
+textarea:focus{
+    box-shadow:
+        0 0 15px rgba(0,234,255,.35);
 }
 
 
-#mic.listening {
+/* ==============================
+   BUTTONS
+   ============================== */
 
-    background:
-        #ff304f;
+.button-row{
+    display:flex;
 
-    border-color:
-        #ff304f;
+    gap:10px;
 
-    color: white;
+    margin-top:10px;
+}
+
+button{
+    flex:1;
+
+    padding:14px;
+
+    border:1px solid #00eaff;
+
+    background:#00eaff;
+
+    color:#001014;
+
+    font-family:monospace;
+
+    font-weight:bold;
+
+    font-size:14px;
+
+    cursor:pointer;
 
     box-shadow:
-        0 0 20px #ff304f;
+        0 0 10px rgba(0,234,255,.4);
+
+    transition:.2s;
+}
+
+button:active{
+    transform:scale(.97);
+}
+
+button:hover{
+    box-shadow:
+        0 0 20px rgba(0,234,255,.8);
+}
+
+#micButton{
+    flex:0 0 70px;
+
+    font-size:18px;
 }
 
 
-/* ================= SEND ================= */
+/* ==============================
+   LISTENING
+   ============================== */
 
-#send {
+.listening{
+    background:#ff304f !important;
 
-    width: 72px;
+    border-color:#ff304f !important;
 
-    height: 46px;
+    color:#fff !important;
 
-    border:
-        1px solid #00ffff;
-
-    background:
-        #00ffff;
-
-    color: #000;
-
-    font-weight: bold;
-
-    font-family:
-        "Courier New",
-        monospace;
-
-    cursor: pointer;
+    box-shadow:
+        0 0 20px rgba(255,48,79,.8) !important;
 }
 
 
-#send:disabled {
+/* ==============================
+   FOOTER
+   ============================== */
 
-    opacity: 0.5;
+.footer{
+    margin-top:18px;
 
-    cursor: wait;
-}
+    text-align:center;
 
+    font-size:10px;
 
-/* ================= VOICE STATUS ================= */
+    letter-spacing:2px;
 
-#voiceStatus {
-
-    margin-top: 10px;
-
-    text-align: center;
-
-    font-size: 10px;
-
-    letter-spacing: 2px;
-
-    color: #557777;
-}
-
-
-/* ================= FOOTER ================= */
-
-.footer {
-
-    text-align: center;
-
-    margin-top: 22px;
-
-    color: #24484b;
-
-    font-size: 9px;
-
-    letter-spacing: 2px;
-}
-
-
-@media (max-width: 360px) {
-
-    .logo {
-
-        font-size: 25px;
-
-        letter-spacing: 5px;
-    }
-
-    .core {
-
-        width: 125px;
-
-        height: 125px;
-    }
-
-    #mic {
-
-        width: 48px;
-    }
-
-    #send {
-
-        width: 65px;
-    }
-
+    color:#4ecbd5;
 }
 
 </style>
@@ -520,179 +373,173 @@ body {
 <body>
 
 
-<div class="app">
+<div class="container">
 
 
-<!-- HEADER -->
+    <!-- =========================
+         HEADER
+         ========================= -->
 
-<header class="header">
+    <div class="header">
 
-    <div class="logo">
-        J.A.R.V.I.S
-    </div>
-
-    <div class="edition">
-        MOBILE EDITION
-    </div>
-
-</header>
-
-
-<!-- CORE -->
-
-<section class="core-section">
-
-    <div class="core">
-
-        <div class="core-center">
+        <div class="logo">
             JARVIS
         </div>
 
+        <div class="subtitle">
+            MOBILE EDITION
+        </div>
+
     </div>
+
+
+    <!-- =========================
+         CORE
+         ========================= -->
+
+    <div class="core-area">
+
+        <div class="core"></div>
+
+    </div>
+
 
     <div class="core-status">
         CORE ACTIVE
     </div>
 
-</section>
+
+    <!-- =========================
+         SYSTEM STATUS
+         ========================= -->
+
+    <div class="panel">
+
+        <div class="panel-title">
+            SYSTEM STATUS
+        </div>
 
 
-<!-- SYSTEM STATUS -->
+        <div class="status-row">
 
-<section class="panel">
+            <span>
+                AI CORE
+            </span>
 
-    <div class="panel-title">
-        SYSTEM STATUS
-    </div>
+            <span
+                id="brainStatus"
+                class="online"
+            >
+                ONLINE
+            </span>
 
-
-    <div class="status-row">
-
-        <span>AI CORE</span>
-
-        <span class="online">
-            ● ONLINE
-        </span>
-
-    </div>
+        </div>
 
 
-    <div class="status-row">
+        <div class="status-row">
 
-        <span>NETWORK</span>
+            <span>
+                NETWORK
+            </span>
 
-        <span class="online">
-            ● ONLINE
-        </span>
+            <span class="online">
+                ONLINE
+            </span>
 
-    </div>
-
-
-    <div class="status-row">
-
-        <span>VOICE</span>
-
-        <span id="voiceState"
-              class="online">
-
-            ● READY
-
-        </span>
-
-    </div>
+        </div>
 
 
-    <div class="status-row">
+        <div class="status-row">
 
-        <span>MEMORY</span>
+            <span>
+                VOICE
+            </span>
 
-        <span class="locked">
-            ● LOCKED
-        </span>
+            <span
+                id="voiceStatus"
+                class="ready"
+            >
+                READY
+            </span>
 
-    </div>
-
-</section>
-
-
-<!-- RESPONSE -->
-
-<section class="panel">
-
-    <div class="panel-title">
-        J.A.R.V.I.S RESPONSE
-    </div>
+        </div>
 
 
-    <div id="reply"
-         class="chat-box">
+        <div class="status-row">
 
-        <div class="waiting">
-            Waiting for your command...
+            <span>
+                MEMORY
+            </span>
+
+            <span class="ready">
+                READY
+            </span>
+
         </div>
 
     </div>
 
-</section>
+
+    <!-- =========================
+         RESPONSE
+         ========================= -->
+
+    <div class="panel">
+
+        <div class="panel-title">
+            JARVIS RESPONSE
+        </div>
 
 
-<!-- COMMAND -->
+        <div id="reply">
+            Systems online.
+            Awaiting your command, Vishnu.
+        </div>
 
-<section class="panel">
-
-    <div class="panel-title">
-        COMMAND CENTER
     </div>
 
 
-    <div class="input-area">
+    <!-- =========================
+         ASK JARVIS
+         ========================= -->
+
+    <div class="panel">
+
+        <div class="panel-title">
+            ASK JARVIS
+        </div>
 
 
-        <input
+        <textarea
             id="prompt"
-            type="text"
-            placeholder="Ask J.A.R.V.I.S..."
-            autocomplete="off"
-        >
+            placeholder="Type your message here..."
+        ></textarea>
 
 
-        <button
-            id="mic"
-            type="button"
-            onclick="startListening()">
+        <div class="button-row">
 
-            🎙️
+            <button
+                onclick="askJarvis()"
+            >
+                SEND
+            </button>
 
-        </button>
 
+            <button
+                id="micButton"
+                onclick="toggleListening()"
+            >
+                🎙️
+            </button>
 
-        <button
-            id="send"
-            type="button"
-            onclick="askJarvis()">
-
-            SEND
-
-        </button>
-
+        </div>
 
     </div>
 
 
-    <div id="voiceStatus">
-
-        VOICE READY
-
+    <div class="footer">
+        JARVIS ONLINE • SECURE AI CORE
     </div>
-
-</section>
-
-
-<div class="footer">
-
-    J.A.R.V.I.S X • MOBILE EDITION
-
-</div>
 
 
 </div>
@@ -701,414 +548,78 @@ body {
 
 <script>
 
-
-/*
-==================================================
-J.A.R.V.I.S X
-SECURE CLOUD BACKEND
-==================================================
-
-NO GEMINI API KEY HERE.
-
-Website
-   ↓
-Cloudflare Worker
-   ↓
-Gemini API
-
-==================================================
-*/
-
+/* =====================================================
+   CLOUDFLARE WORKER
+   ===================================================== */
 
 const WORKER_URL =
 "https://jarvis-api-594e.vishnudutha8810.workers.dev";
 
 
+/* =====================================================
+   DOM
+   ===================================================== */
 
-/*
-==================================================
-VOICE RECOGNITION
-==================================================
-*/
+const promptBox =
+document.getElementById("prompt");
 
+const replyBox =
+document.getElementById("reply");
 
-const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
+const micButton =
+document.getElementById("micButton");
 
+const brainStatus =
+document.getElementById("brainStatus");
 
-let recognition = null;
+const voiceStatus =
+document.getElementById("voiceStatus");
 
-let isListening = false;
 
-
-if (SpeechRecognition) {
-
-
-    recognition =
-        new SpeechRecognition();
-
-
-    recognition.continuous = false;
-
-
-    recognition.interimResults = false;
-
-
-    /*
-    English speech recognition.
-
-    Change to te-IN later if you
-    want Telugu speech recognition.
-    */
-
-    recognition.lang = "en-IN";
-
-
-    recognition.onstart =
-    function() {
-
-
-        isListening = true;
-
-
-        document
-            .getElementById("mic")
-            .classList.add("listening");
-
-
-        document
-            .getElementById("voiceStatus")
-            .textContent =
-            "🎙️ LISTENING...";
-
-
-        document
-            .getElementById("voiceState")
-            .textContent =
-            "● LISTENING";
-
-    };
-
-
-    recognition.onresult =
-    function(event) {
-
-
-        const transcript =
-            event.results[0][0].transcript;
-
-
-        document
-            .getElementById("prompt")
-            .value =
-            transcript;
-
-
-        document
-            .getElementById("voiceStatus")
-            .textContent =
-            "VOICE RECEIVED";
-
-
-        /*
-        Automatically send
-        recognized speech.
-        */
-
-        askJarvis();
-
-    };
-
-
-    recognition.onerror =
-    function(event) {
-
-
-        console.error(
-            "Speech recognition error:",
-            event.error
-        );
-
-
-        document
-            .getElementById("voiceStatus")
-            .textContent =
-            "VOICE ERROR: " +
-            event.error;
-
-    };
-
-
-    recognition.onend =
-    function() {
-
-
-        isListening = false;
-
-
-        document
-            .getElementById("mic")
-            .classList.remove("listening");
-
-
-        document
-            .getElementById("voiceState")
-            .textContent =
-            "● READY";
-
-    };
-
-}
-
-
-
-/*
-==================================================
-MIC BUTTON
-==================================================
-*/
-
-
-function startListening() {
-
-
-    if (!recognition) {
-
-
-        alert(
-            "Voice recognition is not supported. Please use Chrome."
-        );
-
-
-        return;
-
-    }
-
-
-    if (isListening) {
-
-
-        recognition.stop();
-
-
-        return;
-
-    }
-
-
-    document
-        .getElementById("voiceStatus")
-        .textContent =
-        "REQUESTING MICROPHONE...";
-
-
-    recognition.start();
-
-}
-
-
-
-/*
-==================================================
-GEMINI REQUEST
-==================================================
-*/
-
-
-async function askJarvis() {
-
-
-    const input =
-        document.getElementById("prompt");
-
-
-    const reply =
-        document.getElementById("reply");
-
-
-    const button =
-        document.getElementById("send");
-
-
-    const prompt =
-        input.value.trim();
-
-
-    if (!prompt) {
-
-
-        reply.innerHTML =
-            '<div class="waiting">Please enter a command...</div>';
-
-
-        return;
-
-    }
-
-
-    button.disabled = true;
-
-    button.textContent = "...";
-
-
-    reply.textContent =
-        "JARVIS is processing your request...";
-
-
-    try {
-
-
-        const response =
-            await fetch(
-                WORKER_URL,
-                {
-
-                    method: "POST",
-
-                    headers: {
-
-                        "Content-Type":
-                            "application/json"
-
-                    },
-
-                    body: JSON.stringify({
-
-                        prompt: prompt
-
-                    })
-
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if (!response.ok) {
-
-
-            throw new Error(
-                data.error ||
-                "Backend request failed."
-            );
-
-        }
-
-
-        const jarvisReply =
-            data.reply ||
-            "JARVIS returned no response.";
-
-
-        reply.textContent =
-            jarvisReply;
-
-
-        /*
-        Speak Gemini response.
-        */
-
-        speakJarvis(
-            jarvisReply
-        );
-
-
-    }
-
-
-    catch (error) {
-
-
-        console.error(error);
-
-
-        reply.textContent =
-            "JARVIS CONNECTION ERROR\n\n" +
-            error.message;
-
-    }
-
-
-    finally {
-
-
-        button.disabled = false;
-
-        button.textContent =
-            "SEND";
-
-    }
-
-}
-
-
-
-/*
-==================================================
-DEEP JARVIS VOICE
-==================================================
-*/
-
+/* =====================================================
+   VOICE VARIABLES
+   ===================================================== */
 
 let availableVoices = [];
 
+let selectedJarvisVoice = null;
 
-function loadVoices() {
-
-    availableVoices =
-        window.speechSynthesis
-            .getVoices();
-
-}
+let isSpeaking = false;
 
 
-loadVoices();
+/* =====================================================
+   LOAD VOICES
+   ===================================================== */
 
+function loadVoices(){
 
-if ("speechSynthesis" in window) {
-
-    speechSynthesis.onvoiceschanged =
-        loadVoices;
-
-}
-
-
-
-/*
-Find the most suitable
-available English male voice.
-
-Different phones have
-different voice lists.
-*/
-
-
-function getJarvisVoice() {
-
-
-    const voices =
-        availableVoices;
-
-
-    if (!voices.length) {
-
-        return null;
-
+    if(!("speechSynthesis" in window)){
+        return;
     }
 
 
-    /*
-    Preferred voice names.
-
-    Browser may or may not
-    provide these.
-    */
+    availableVoices =
+        window.speechSynthesis.getVoices();
 
 
-    const preferredNames = [
+    selectedJarvisVoice =
+        findBestMaleVoice();
+
+}
+
+
+/* =====================================================
+   FIND BEST MALE VOICE
+   ===================================================== */
+
+function findBestMaleVoice(){
+
+    if(!availableVoices.length){
+        return null;
+    }
+
+
+    const preferredVoices = [
 
         "Google UK English Male",
 
@@ -1117,6 +628,10 @@ function getJarvisVoice() {
         "Microsoft Ryan Online",
 
         "Microsoft Guy Online",
+
+        "Microsoft Daniel Online",
+
+        "Microsoft William Online",
 
         "Daniel",
 
@@ -1129,258 +644,347 @@ function getJarvisVoice() {
     ];
 
 
-    for (
-        const preferred of preferredNames
-    ) {
+    /* Preferred voices */
 
+    for(
+        const name
+        of preferredVoices
+    ){
 
         const found =
-            voices.find(
+            availableVoices.find(
+
                 voice =>
+
                 voice.name
-                .toLowerCase()
-                .includes(
-                    preferred.toLowerCase()
-                )
+                    .toLowerCase()
+                    .includes(
+                        name.toLowerCase()
+                    )
+
             );
 
 
-        if (found) {
-
+        if(found){
             return found;
-
         }
 
     }
 
 
-    /*
-    Otherwise prefer an
-    English male-looking voice.
-    */
+    /* Other male English voices */
 
+    const maleNames = [
 
-    const maleKeywords = [
-
-        "male",
-
-        "george",
-
-        "guy",
-
-        "daniel",
-
-        "alex",
-
-        "arthur",
-
-        "ryan",
-
-        "david",
-
-        "james",
-
-        "fred"
+        "George",
+        "Ryan",
+        "Guy",
+        "Daniel",
+        "David",
+        "James",
+        "Arthur",
+        "Alex",
+        "Thomas",
+        "Brian"
 
     ];
 
 
-    const englishVoices =
-        voices.filter(
-            voice =>
-            voice.lang
-                .toLowerCase()
-                .startsWith("en")
-        );
+    for(
+        const name
+        of maleNames
+    ){
+
+        const found =
+            availableVoices.find(
+
+                voice =>
+
+                voice.lang
+                    .toLowerCase()
+                    .startsWith("en")
+
+                &&
+
+                voice.name
+                    .toLowerCase()
+                    .includes(
+                        name.toLowerCase()
+                    )
+
+            );
 
 
-    for (
-        const voice of englishVoices
-    ) {
-
-
-        const name =
-            voice.name.toLowerCase();
-
-
-        if (
-            maleKeywords.some(
-                keyword =>
-                name.includes(keyword)
-            )
-        ) {
-
-            return voice;
-
+        if(found){
+            return found;
         }
 
     }
 
 
-    /*
-    Final fallback:
-    first English voice.
-    */
+    /* English fallback */
 
+    return (
 
-    return englishVoices[0] || null;
+        availableVoices.find(
+
+            voice =>
+            voice.lang
+                .toLowerCase()
+                .startsWith("en")
+
+        )
+
+        ||
+
+        null
+
+    );
 
 }
 
 
+/* Load immediately */
 
-/*
-==================================================
-TEXT TO SPEECH
-==================================================
-*/
+loadVoices();
 
 
-function speakJarvis(text) {
+/* Chrome loads voices asynchronously */
+
+if("speechSynthesis" in window){
+
+    speechSynthesis.onvoiceschanged =
+        function(){
+
+            loadVoices();
+
+        };
+
+}
 
 
-    if (
-        !("speechSynthesis" in window)
-    ) {
+/* =====================================================
+   SPEAK JARVIS
+   ===================================================== */
+
+function speakJarvis(text){
+
+    if(!("speechSynthesis" in window)){
+
+        voiceStatus.textContent =
+            "NOT SUPPORTED";
 
         return;
 
     }
 
 
+    if(!text){
+        return;
+    }
+
+
     /*
-    Stop previous speech.
+       Stop previous speech.
     */
 
-    speechSynthesis.cancel();
+    window.speechSynthesis.cancel();
 
 
-    const speech =
+    /*
+       Keep the name as plain "Jarvis".
+
+       No dots.
+       No spelling.
+       No X.
+    */
+
+    const cleanText =
+        text;
+
+
+    /*
+       Create speech.
+    */
+
+    const utterance =
         new SpeechSynthesisUtterance(
-            text
+            cleanText
         );
 
 
     /*
-    Deep / calm JARVIS style.
+       Voice settings.
+
+       Slightly slower + lower pitch
+       for an assistant-style male sound.
     */
 
-    speech.lang = "en-GB";
+    utterance.rate =
+        0.92;
+
+    utterance.pitch =
+        0.78;
+
+    utterance.volume =
+        1;
 
 
-    speech.rate = 0.88;
+    /*
+       Try English voice.
+    */
+
+    utterance.lang =
+        "en-GB";
 
 
-    speech.pitch = 0.65;
+    /*
+       Re-check available voices.
+    */
 
+    if(!selectedJarvisVoice){
 
-    speech.volume = 1;
-
-
-    const jarvisVoice =
-        getJarvisVoice();
-
-
-    if (jarvisVoice) {
-
-        speech.voice =
-            jarvisVoice;
+        selectedJarvisVoice =
+            findBestMaleVoice();
 
     }
 
 
-    speech.onstart =
-    function() {
+    if(selectedJarvisVoice){
+
+        utterance.voice =
+            selectedJarvisVoice;
+
+        utterance.lang =
+            selectedJarvisVoice.lang;
+
+    }
 
 
-        document
-            .getElementById("voiceStatus")
-            .textContent =
-            "🔊 JARVIS SPEAKING...";
+    /* Speech starts */
+
+    utterance.onstart =
+        function(){
+
+            isSpeaking =
+                true;
+
+            voiceStatus.textContent =
+                "SPEAKING";
+
+        };
 
 
-        document
-            .getElementById("voiceState")
-            .textContent =
-            "● SPEAKING";
+    /* Speech finished */
 
-    };
+    utterance.onend =
+        function(){
 
+            isSpeaking =
+                false;
 
-    speech.onend =
-    function() {
+            voiceStatus.textContent =
+                "READY";
 
-
-        document
-            .getElementById("voiceStatus")
-            .textContent =
-            "VOICE READY";
+        };
 
 
-        document
-            .getElementById("voiceState")
-            .textContent =
-            "● READY";
+    /* Speech error */
 
-    };
+    utterance.onerror =
+        function(){
 
+            isSpeaking =
+                false;
 
-    speech.onerror =
-    function(event) {
+            voiceStatus.textContent =
+                "READY";
 
-
-        console.error(
-            "Speech synthesis error:",
-            event.error
-        );
+        };
 
 
-        document
-            .getElementById("voiceStatus")
-            .textContent =
-            "VOICE ERROR";
+    /*
+       Start immediately.
+    */
 
-    };
-
-
-    speechSynthesis.speak(
-        speech
+    window.speechSynthesis.speak(
+        utterance
     );
 
 }
 
 
+/* =====================================================
+   ASK JARVIS
+   ===================================================== */
 
-/*
-==================================================
-ENTER KEY
-==================================================
-*/
-
-
-document
-    .getElementById("prompt")
-    .addEventListener(
-        "keydown",
-        function(event) {
+let isProcessing = false;
 
 
-            if (
-                event.key === "Enter"
-            ) {
+async function askJarvis(){
+
+    if(isProcessing){
+        return;
+    }
 
 
-                askJarvis();
-
-             }
-
-        }
-    );
+    const userPrompt =
+        promptBox.value.trim();
 
 
-</script>
+    if(!userPrompt){
+
+        replyBox.textContent =
+            "Please enter a message, Vishnu.";
+
+        return;
+
+    }
 
 
-</body>
+    isProcessing =
+        true;
 
-      </html>
+
+    brainStatus.textContent =
+        "THINKING";
+
+
+    replyBox.textContent =
+        "Jarvis is thinking...";
+
+
+    try{
+
+
+        /* =============================
+           SEND TO CLOUDFLARE
+           ============================= */
+
+        const response =
+            await fetch(
+
+                WORKER_URL,
+
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        prompt:
+                            userPrompt
+
+                    })
+
+                }
+
+            );
+
+
+        const
