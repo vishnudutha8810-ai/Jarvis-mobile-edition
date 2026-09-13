@@ -36,26 +36,22 @@ body {
 }
 
 body {
-
     overflow-x: hidden;
-
 }
 
 
 .app {
 
     width: 100%;
-
     max-width: 520px;
 
     margin: auto;
 
     padding: 18px 14px 35px;
-
 }
 
 
-/* HEADER */
+/* ================= HEADER ================= */
 
 .header {
 
@@ -66,8 +62,8 @@ body {
 
     border-bottom:
         1px solid #073f43;
-
 }
+
 
 .logo {
 
@@ -83,8 +79,8 @@ body {
         0 0 8px #00ffff,
         0 0 20px #00ffff,
         0 0 35px #00ffff;
-
 }
+
 
 .edition {
 
@@ -95,11 +91,10 @@ body {
     letter-spacing: 4px;
 
     color: #5bdede;
-
 }
 
 
-/* CORE */
+/* ================= CORE ================= */
 
 .core-section {
 
@@ -107,15 +102,14 @@ body {
 
     padding:
         25px 0 20px;
-
 }
+
 
 .core {
 
     position: relative;
 
     width: 145px;
-
     height: 145px;
 
     margin: auto;
@@ -133,8 +127,8 @@ body {
     animation:
         corePulse 2.5s infinite
         ease-in-out;
-
 }
+
 
 .core::before {
 
@@ -151,8 +145,8 @@ body {
 
     box-shadow:
         0 0 15px #00ffff;
-
 }
+
 
 .core::after {
 
@@ -170,8 +164,8 @@ body {
     box-shadow:
         0 0 10px white,
         inset 0 0 15px #ffffff55;
-
 }
+
 
 .core-center {
 
@@ -192,8 +186,8 @@ body {
     font-size: 11px;
 
     letter-spacing: 3px;
-
 }
+
 
 .core-status {
 
@@ -204,7 +198,6 @@ body {
     font-size: 10px;
 
     letter-spacing: 4px;
-
 }
 
 
@@ -215,7 +208,6 @@ body {
         transform: scale(1);
 
         filter: brightness(1);
-
     }
 
     50% {
@@ -223,13 +215,12 @@ body {
         transform: scale(1.04);
 
         filter: brightness(1.3);
-
     }
 
 }
 
 
-/* STATUS */
+/* ================= PANELS ================= */
 
 .panel {
 
@@ -246,8 +237,8 @@ body {
     margin-top: 15px;
 
     padding: 16px;
-
 }
+
 
 .panel-title {
 
@@ -258,8 +249,10 @@ body {
     letter-spacing: 3px;
 
     margin-bottom: 13px;
-
 }
+
+
+/* ================= STATUS ================= */
 
 .status-row {
 
@@ -272,8 +265,8 @@ body {
     font-size: 11px;
 
     letter-spacing: 1px;
-
 }
+
 
 .online {
 
@@ -281,8 +274,8 @@ body {
 
     text-shadow:
         0 0 8px #00ff66;
-
 }
+
 
 .locked {
 
@@ -290,11 +283,10 @@ body {
 
     text-shadow:
         0 0 8px #ff304f;
-
 }
 
 
-/* RESPONSE */
+/* ================= CHAT ================= */
 
 .chat-box {
 
@@ -323,8 +315,8 @@ body {
     line-height: 1.6;
 
     white-space: pre-wrap;
-
 }
+
 
 .waiting {
 
@@ -333,11 +325,10 @@ body {
     text-align: center;
 
     padding-top: 55px;
-
 }
 
 
-/* COMMAND */
+/* ================= COMMAND ================= */
 
 .input-area {
 
@@ -346,8 +337,8 @@ body {
     display: flex;
 
     gap: 7px;
-
 }
+
 
 #prompt {
 
@@ -374,17 +365,16 @@ body {
         monospace;
 
     font-size: 13px;
-
 }
+
 
 #prompt::placeholder {
 
     color: #527174;
-
 }
 
 
-/* MIC */
+/* ================= MIC ================= */
 
 #mic {
 
@@ -403,15 +393,15 @@ body {
     font-size: 20px;
 
     cursor: pointer;
-
 }
+
 
 #mic:hover {
 
     box-shadow:
         0 0 15px #00ffff;
-
 }
+
 
 #mic.listening {
 
@@ -425,11 +415,10 @@ body {
 
     box-shadow:
         0 0 20px #ff304f;
-
 }
 
 
-/* SEND */
+/* ================= SEND ================= */
 
 #send {
 
@@ -452,19 +441,18 @@ body {
         monospace;
 
     cursor: pointer;
-
 }
+
 
 #send:disabled {
 
     opacity: 0.5;
 
     cursor: wait;
-
 }
 
 
-/* VOICE STATUS */
+/* ================= VOICE STATUS ================= */
 
 #voiceStatus {
 
@@ -477,11 +465,10 @@ body {
     letter-spacing: 2px;
 
     color: #557777;
-
 }
 
 
-/* FOOTER */
+/* ================= FOOTER ================= */
 
 .footer {
 
@@ -494,7 +481,6 @@ body {
     font-size: 9px;
 
     letter-spacing: 2px;
-
 }
 
 
@@ -505,7 +491,6 @@ body {
         font-size: 25px;
 
         letter-spacing: 5px;
-
     }
 
     .core {
@@ -513,19 +498,16 @@ body {
         width: 125px;
 
         height: 125px;
-
     }
 
     #mic {
 
         width: 48px;
-
     }
 
     #send {
 
         width: 65px;
-
     }
 
 }
@@ -582,6 +564,7 @@ body {
     <div class="panel-title">
         SYSTEM STATUS
     </div>
+
 
     <div class="status-row">
 
@@ -725,13 +708,13 @@ J.A.R.V.I.S X
 SECURE CLOUD BACKEND
 ==================================================
 
+NO GEMINI API KEY HERE.
+
 Website
    ↓
 Cloudflare Worker
    ↓
 Gemini API
-
-NO GEMINI API KEY IN THIS FILE.
 
 ==================================================
 */
@@ -759,31 +742,46 @@ let recognition = null;
 let isListening = false;
 
 
-
 if (SpeechRecognition) {
+
 
     recognition =
         new SpeechRecognition();
 
+
     recognition.continuous = false;
 
+
     recognition.interimResults = false;
+
+
+    /*
+    English speech recognition.
+
+    Change to te-IN later if you
+    want Telugu speech recognition.
+    */
 
     recognition.lang = "en-IN";
 
 
-    recognition.onstart = function() {
+    recognition.onstart =
+    function() {
+
 
         isListening = true;
+
 
         document
             .getElementById("mic")
             .classList.add("listening");
 
+
         document
             .getElementById("voiceStatus")
             .textContent =
             "🎙️ LISTENING...";
+
 
         document
             .getElementById("voiceState")
@@ -795,6 +793,7 @@ if (SpeechRecognition) {
 
     recognition.onresult =
     function(event) {
+
 
         const transcript =
             event.results[0][0].transcript;
@@ -814,7 +813,7 @@ if (SpeechRecognition) {
 
         /*
         Automatically send
-        recognized speech to JARVIS.
+        recognized speech.
         */
 
         askJarvis();
@@ -824,6 +823,7 @@ if (SpeechRecognition) {
 
     recognition.onerror =
     function(event) {
+
 
         console.error(
             "Speech recognition error:",
@@ -842,6 +842,7 @@ if (SpeechRecognition) {
 
     recognition.onend =
     function() {
+
 
         isListening = false;
 
@@ -864,7 +865,7 @@ if (SpeechRecognition) {
 
 /*
 ==================================================
-START MICROPHONE
+MIC BUTTON
 ==================================================
 */
 
@@ -874,9 +875,11 @@ function startListening() {
 
     if (!recognition) {
 
+
         alert(
-            "Voice recognition is not supported in this browser. Please use Chrome."
+            "Voice recognition is not supported. Please use Chrome."
         );
+
 
         return;
 
@@ -885,7 +888,9 @@ function startListening() {
 
     if (isListening) {
 
+
         recognition.stop();
+
 
         return;
 
@@ -906,7 +911,7 @@ function startListening() {
 
 /*
 ==================================================
-JARVIS TEXT → GEMINI
+GEMINI REQUEST
 ==================================================
 */
 
@@ -932,8 +937,10 @@ async function askJarvis() {
 
     if (!prompt) {
 
+
         reply.innerHTML =
             '<div class="waiting">Please enter a command...</div>';
+
 
         return;
 
@@ -982,6 +989,7 @@ async function askJarvis() {
 
         if (!response.ok) {
 
+
             throw new Error(
                 data.error ||
                 "Backend request failed."
@@ -1000,7 +1008,7 @@ async function askJarvis() {
 
 
         /*
-        🔊 JARVIS VOICE OUTPUT
+        Speak Gemini response.
         */
 
         speakJarvis(
@@ -1040,7 +1048,190 @@ async function askJarvis() {
 
 /*
 ==================================================
-TEXT → SPEECH
+DEEP JARVIS VOICE
+==================================================
+*/
+
+
+let availableVoices = [];
+
+
+function loadVoices() {
+
+    availableVoices =
+        window.speechSynthesis
+            .getVoices();
+
+}
+
+
+loadVoices();
+
+
+if ("speechSynthesis" in window) {
+
+    speechSynthesis.onvoiceschanged =
+        loadVoices;
+
+}
+
+
+
+/*
+Find the most suitable
+available English male voice.
+
+Different phones have
+different voice lists.
+*/
+
+
+function getJarvisVoice() {
+
+
+    const voices =
+        availableVoices;
+
+
+    if (!voices.length) {
+
+        return null;
+
+    }
+
+
+    /*
+    Preferred voice names.
+
+    Browser may or may not
+    provide these.
+    */
+
+
+    const preferredNames = [
+
+        "Google UK English Male",
+
+        "Microsoft George",
+
+        "Microsoft Ryan Online",
+
+        "Microsoft Guy Online",
+
+        "Daniel",
+
+        "Alex",
+
+        "Arthur",
+
+        "James"
+
+    ];
+
+
+    for (
+        const preferred of preferredNames
+    ) {
+
+
+        const found =
+            voices.find(
+                voice =>
+                voice.name
+                .toLowerCase()
+                .includes(
+                    preferred.toLowerCase()
+                )
+            );
+
+
+        if (found) {
+
+            return found;
+
+        }
+
+    }
+
+
+    /*
+    Otherwise prefer an
+    English male-looking voice.
+    */
+
+
+    const maleKeywords = [
+
+        "male",
+
+        "george",
+
+        "guy",
+
+        "daniel",
+
+        "alex",
+
+        "arthur",
+
+        "ryan",
+
+        "david",
+
+        "james",
+
+        "fred"
+
+    ];
+
+
+    const englishVoices =
+        voices.filter(
+            voice =>
+            voice.lang
+                .toLowerCase()
+                .startsWith("en")
+        );
+
+
+    for (
+        const voice of englishVoices
+    ) {
+
+
+        const name =
+            voice.name.toLowerCase();
+
+
+        if (
+            maleKeywords.some(
+                keyword =>
+                name.includes(keyword)
+            )
+        ) {
+
+            return voice;
+
+        }
+
+    }
+
+
+    /*
+    Final fallback:
+    first English voice.
+    */
+
+
+    return englishVoices[0] || null;
+
+}
+
+
+
+/*
+==================================================
+TEXT TO SPEECH
 ==================================================
 */
 
@@ -1048,20 +1239,20 @@ TEXT → SPEECH
 function speakJarvis(text) {
 
 
-    if (!("speechSynthesis" in window)) {
-
-        console.log(
-            "Speech synthesis not supported."
-        );
+    if (
+        !("speechSynthesis" in window)
+    ) {
 
         return;
 
     }
 
 
-    window
-        .speechSynthesis
-        .cancel();
+    /*
+    Stop previous speech.
+    */
+
+    speechSynthesis.cancel();
 
 
     const speech =
@@ -1071,28 +1262,42 @@ function speakJarvis(text) {
 
 
     /*
-    Indian English voice.
-    Browser will choose the
-    closest available voice.
+    Deep / calm JARVIS style.
     */
 
-    speech.lang = "en-IN";
+    speech.lang = "en-GB";
 
 
-    speech.rate = 0.95;
+    speech.rate = 0.88;
 
-    speech.pitch = 0.85;
+
+    speech.pitch = 0.65;
+
 
     speech.volume = 1;
+
+
+    const jarvisVoice =
+        getJarvisVoice();
+
+
+    if (jarvisVoice) {
+
+        speech.voice =
+            jarvisVoice;
+
+    }
 
 
     speech.onstart =
     function() {
 
+
         document
             .getElementById("voiceStatus")
             .textContent =
             "🔊 JARVIS SPEAKING...";
+
 
         document
             .getElementById("voiceState")
@@ -1105,10 +1310,12 @@ function speakJarvis(text) {
     speech.onend =
     function() {
 
+
         document
             .getElementById("voiceStatus")
             .textContent =
             "VOICE READY";
+
 
         document
             .getElementById("voiceState")
@@ -1118,9 +1325,27 @@ function speakJarvis(text) {
     };
 
 
-    window
-        .speechSynthesis
-        .speak(speech);
+    speech.onerror =
+    function(event) {
+
+
+        console.error(
+            "Speech synthesis error:",
+            event.error
+        );
+
+
+        document
+            .getElementById("voiceStatus")
+            .textContent =
+            "VOICE ERROR";
+
+    };
+
+
+    speechSynthesis.speak(
+        speech
+    );
 
 }
 
@@ -1139,13 +1364,15 @@ document
         "keydown",
         function(event) {
 
+
             if (
                 event.key === "Enter"
             ) {
 
+
                 askJarvis();
 
-            }
+             }
 
         }
     );
@@ -1156,4 +1383,4 @@ document
 
 </body>
 
-  </html>
+      </html>
