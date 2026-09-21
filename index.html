@@ -356,10 +356,41 @@ button:disabled {
     cursor: not-allowed;
 }
 
+
+/* =========================
+   MIC BUTTON
+   ========================= */
+
 #micButton {
     flex: 0 0 78px;
 
     font-size: 21px;
+}
+
+
+/* =========================
+   EPISODE 5
+   MEMORY + VISION BUTTONS
+   ========================= */
+
+#clear-btn,
+#cam-btn {
+    flex: 0 0 58px;
+
+    min-height: 55px;
+
+    padding: 10px;
+
+    font-size: 21px;
+}
+
+
+/* =========================
+   HIDDEN CAMERA INPUT
+   ========================= */
+
+#img-input {
+    display: none;
 }
 
 
@@ -550,6 +581,9 @@ button:disabled {
 
     <div class="button-row">
 
+
+        <!-- SEND -->
+
         <button
             id="sendButton"
             onclick="askJarvis()"
@@ -558,12 +592,55 @@ button:disabled {
         </button>
 
 
+        <!-- =========================
+             EPISODE 5
+             MEMORY CLEAR
+             ========================= -->
+
+        <button
+            id="clear-btn"
+            title="Clear Memory"
+        >
+            🧠
+        </button>
+
+
+        <!-- =========================
+             EPISODE 5
+             CAMERA / VISION
+             ========================= -->
+
+        <button
+            id="cam-btn"
+            title="Camera / Vision"
+        >
+            📷
+        </button>
+
+
+        <!-- =========================
+             EPISODE 5
+             IMAGE INPUT
+             ========================= -->
+
+        <input
+            type="file"
+            id="img-input"
+            accept="image/*"
+            capture="environment"
+            style="display:none;"
+        >
+
+
+        <!-- MICROPHONE -->
+
         <button
             id="micButton"
             onclick="toggleListening()"
         >
             🎙️
         </button>
+
 
     </div>
 
@@ -1255,54 +1332,4 @@ function stopListening() {
 
 
     if (
-        voiceStatus.textContent ===
-        "LISTENING"
-    ) {
-
-        voiceStatus.textContent =
-            "READY";
-
-    }
-
-}
-
-
-/* =====================================================
-   CTRL + ENTER
-   ===================================================== */
-
-promptBox.addEventListener(
-    "keydown",
-    function (event) {
-
-        if (
-            event.key === "Enter" &&
-            event.ctrlKey
-        ) {
-
-            event.preventDefault();
-
-            askJarvis();
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   INITIAL READY STATE
-   ===================================================== */
-
-brainStatus.textContent =
-    "ONLINE";
-
-voiceStatus.textContent =
-    "READY";
-
-
-</script>
-
-</body>
-
-      </html>
+        voiceStatus.textContent 
