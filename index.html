@@ -122,8 +122,7 @@ body {
         0 0 35px rgba(0,234,255,0.35),
         inset 0 0 25px rgba(0,234,255,0.25);
 
-    animation:
-        corePulse 3s infinite;
+    animation: corePulse 3s infinite;
 }
 
 .core::before {
@@ -312,7 +311,7 @@ textarea:focus {
 .button-row {
     display: flex;
 
-    gap: 10px;
+    gap: 8px;
 
     margin-top: 10px;
 }
@@ -358,36 +357,23 @@ button:disabled {
 
 
 /* =========================
-   MIC BUTTON
+   SPECIAL BUTTONS
    ========================= */
 
 #micButton {
-    flex: 0 0 78px;
+    flex: 0 0 65px;
 
     font-size: 21px;
 }
-
-
-/* =========================
-   EPISODE 5
-   MEMORY + VISION BUTTONS
-   ========================= */
 
 #clear-btn,
 #cam-btn {
     flex: 0 0 58px;
 
-    min-height: 55px;
+    font-size: 21px;
 
     padding: 10px;
-
-    font-size: 21px;
 }
-
-
-/* =========================
-   HIDDEN CAMERA INPUT
-   ========================= */
 
 #img-input {
     display: none;
@@ -435,7 +421,6 @@ button:disabled {
 
 <body>
 
-
 <div class="container">
 
 
@@ -481,7 +466,6 @@ button:disabled {
         SYSTEM STATUS
     </div>
 
-
     <div class="status-row">
 
         <span>
@@ -497,7 +481,6 @@ button:disabled {
 
     </div>
 
-
     <div class="status-row">
 
         <span>
@@ -509,7 +492,6 @@ button:disabled {
         </span>
 
     </div>
-
 
     <div class="status-row">
 
@@ -526,14 +508,16 @@ button:disabled {
 
     </div>
 
-
     <div class="status-row">
 
         <span>
             MEMORY
         </span>
 
-        <span class="ready">
+        <span
+            id="memoryStatus"
+            class="ready"
+        >
             READY
         </span>
 
@@ -552,10 +536,9 @@ button:disabled {
         JARVIS RESPONSE
     </div>
 
-
     <div id="reply">
         Systems online.
-        Awaiting your command, Vishnu.
+        Awaiting your command, Boss.
     </div>
 
 </div>
@@ -571,7 +554,6 @@ button:disabled {
         ASK JARVIS
     </div>
 
-
     <textarea
         id="prompt"
         rows="4"
@@ -586,16 +568,12 @@ button:disabled {
 
         <button
             id="sendButton"
-            onclick="askJarvis()"
         >
             SEND
         </button>
 
 
-        <!-- =========================
-             EPISODE 5
-             MEMORY CLEAR
-             ========================= -->
+        <!-- MEMORY -->
 
         <button
             id="clear-btn"
@@ -605,10 +583,7 @@ button:disabled {
         </button>
 
 
-        <!-- =========================
-             EPISODE 5
-             CAMERA / VISION
-             ========================= -->
+        <!-- CAMERA -->
 
         <button
             id="cam-btn"
@@ -618,17 +593,13 @@ button:disabled {
         </button>
 
 
-        <!-- =========================
-             EPISODE 5
-             IMAGE INPUT
-             ========================= -->
+        <!-- IMAGE INPUT -->
 
         <input
             type="file"
             id="img-input"
             accept="image/*"
             capture="environment"
-            style="display:none;"
         >
 
 
@@ -636,7 +607,6 @@ button:disabled {
 
         <button
             id="micButton"
-            onclick="toggleListening()"
         >
             🎙️
         </button>
@@ -662,11 +632,17 @@ button:disabled {
 <script>
 
 /* =====================================================
+   JARVIS EPISODE 5
+   MEMORY + EYES
+   ===================================================== */
+
+
+/* =====================================================
    CLOUDFLARE WORKER
    ===================================================== */
 
 const WORKER_URL =
-"https://jarvis-api.vishnudutha8810.workers.dev";
+    "https://jarvis-api.vishnudutha8810.workers.dev";
 
 
 /* =====================================================
@@ -674,33 +650,234 @@ const WORKER_URL =
    ===================================================== */
 
 const promptBox =
-document.getElementById("prompt");
+    document.getElementById("prompt");
 
 const replyBox =
-document.getElementById("reply");
+    document.getElementById("reply");
 
 const brainStatus =
-document.getElementById("brainStatus");
+    document.getElementById("brainStatus");
 
 const voiceStatus =
-document.getElementById("voiceStatus");
+    document.getElementById("voiceStatus");
+
+const memoryStatus =
+    document.getElementById("memoryStatus");
 
 const micButton =
-document.getElementById("micButton");
+    document.getElementById("micButton");
 
 const sendButton =
-document.getElementById("sendButton");
+    document.getElementById("sendButton");
+
+const clearButton =
+    document.getElementById("clear-btn");
+
+const cameraButton =
+    document.getElementById("cam-btn");
+
+const imageInput =
+    document.getElementById("img-input");
+
+
+/* =====================================================
+   MEMORY
+   ===================================================== */
+
+const MEMORY_KEY =
+    "jarvis_memory";
+
+let MEMORY = [];
+
+
+/* =====================================================
+   LOAD MEMORY
+   ===================================================== */
+
+function loadMemory() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                MEMORY_KEY
+            );
+
+        if (saved) {
+
+            MEMORY =
+                JSON.parse(saved);
+
+        } else {
+
+            MEMORY = [];
+
+        }
+
+    }
+    catch (error) {
+
+        console.error(
+            "Memory load error:",
+            error
+        );
+
+        MEMORY = [];
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE MEMORY
+   ===================================================== */
+
+function saveMemory() {
+
+    try {
+
+        localStorage.setItem(
+            MEMORY_KEY,
+            JSON.stringify(MEMORY)
+        );
+
+        memoryStatus.textContent =
+            "READY";
+
+    }
+    catch (error) {
+
+        console.error(
+            "Memory save error:",
+            error
+        );
+
+        memoryStatus.textContent =
+            "ERROR";
+
+    }
+
+}
+
+
+/* =====================================================
+   ADD MEMORY
+   ===================================================== */
+
+function addMemory(
+    role,
+    text
+) {
+
+    MEMORY.push({
+
+        role: role,
+
+        text: text,
+
+        time: Date.now()
+
+    });
+
+
+    /*
+       Keep latest 30 messages.
+    */
+
+    if (MEMORY.length > 30) {
+
+        MEMORY =
+            MEMORY.slice(-30);
+
+    }
+
+
+    saveMemory();
+
+}
+
+
+/* =====================================================
+   MEMORY CONTEXT
+   ===================================================== */
+
+function getMemoryContext() {
+
+    if (!MEMORY.length) {
+
+        return "";
+
+    }
+
+
+    return MEMORY
+        .map(
+            item =>
+                item.role.toUpperCase()
+                + ": "
+                + item.text
+        )
+        .join("\n");
+
+}
+
+
+/* =====================================================
+   CLEAR MEMORY
+   ===================================================== */
+
+clearButton.onclick =
+    function () {
+
+        const confirmed =
+            confirm(
+                "Clear Jarvis memory?"
+            );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+        MEMORY = [];
+
+
+        localStorage.removeItem(
+            MEMORY_KEY
+        );
+
+
+        memoryStatus.textContent =
+            "CLEARED";
+
+
+        replyBox.textContent =
+            "Memory cleared successfully.";
+
+    };
+
+
+/* =====================================================
+   INITIAL MEMORY LOAD
+   ===================================================== */
+
+loadMemory();
 
 
 /* =====================================================
    PROCESSING
    ===================================================== */
 
-let isProcessing = false;
+let isProcessing =
+    false;
 
 
 /* =====================================================
-   VOICE STATE
+   VOICE
    ===================================================== */
 
 let availableVoices = [];
@@ -709,62 +886,58 @@ let selectedJarvisVoice = null;
 
 
 /* =====================================================
-   LOAD BROWSER VOICES
+   LOAD VOICES
    ===================================================== */
 
 function loadVoices() {
 
-    if (!("speechSynthesis" in window)) {
+    if (
+        !("speechSynthesis" in window)
+    ) {
+
         return;
+
     }
 
+
     availableVoices =
-        window.speechSynthesis.getVoices();
+        speechSynthesis.getVoices();
+
 
     selectedJarvisVoice =
         findBestJarvisVoice();
+
 }
 
 
 /* =====================================================
-   FIND BEST MALE ENGLISH VOICE
+   FIND JARVIS VOICE
    ===================================================== */
 
 function findBestJarvisVoice() {
 
     if (!availableVoices.length) {
+
         return null;
+
     }
 
 
     const preferredNames = [
 
         "Google UK English Male",
-
         "Google US English",
-
         "Microsoft George",
-
         "Microsoft Ryan Online",
-
         "Microsoft Guy Online",
-
         "Microsoft Daniel",
-
         "Daniel",
-
         "Alex",
-
         "Arthur",
-
         "James"
 
     ];
 
-
-    /* ---------------------------------------------
-       First: preferred voices
-       --------------------------------------------- */
 
     for (
         const preferredName
@@ -773,41 +946,34 @@ function findBestJarvisVoice() {
 
         const voice =
             availableVoices.find(
-                voice => {
-
-                    const name =
-                        voice.name
-                            .toLowerCase();
-
-                    return name.includes(
-                        preferredName.toLowerCase()
-                    );
-
-                }
+                voice =>
+                    voice.name
+                        .toLowerCase()
+                        .includes(
+                            preferredName
+                                .toLowerCase()
+                        )
             );
 
 
         if (voice) {
+
             return voice;
+
         }
 
     }
 
 
-    /* ---------------------------------------------
-       Second: any English voice
-       --------------------------------------------- */
-
-    const englishVoice =
+    return (
         availableVoices.find(
             voice =>
                 voice.lang
                     .toLowerCase()
                     .startsWith("en")
-        );
+        ) || null
+    );
 
-
-    return englishVoice || null;
 }
 
 
@@ -818,7 +984,9 @@ function findBestJarvisVoice() {
 loadVoices();
 
 
-if ("speechSynthesis" in window) {
+if (
+    "speechSynthesis" in window
+) {
 
     speechSynthesis.onvoiceschanged =
         function () {
@@ -831,55 +999,45 @@ if ("speechSynthesis" in window) {
 
 
 /* =====================================================
-   CLEAN TEXT FOR SPEECH
+   CLEAN SPEECH
    ===================================================== */
 
 function cleanForSpeech(text) {
 
-    let cleanText = text;
+    return text
 
-
-    cleanText =
-        cleanText.replace(
+        .replace(
             /\*\*(.*?)\*\*/g,
             "$1"
-        );
+        )
 
-
-    cleanText =
-        cleanText.replace(
+        .replace(
             /\*(.*?)\*/g,
             "$1"
-        );
+        )
 
-
-    cleanText =
-        cleanText.replace(
+        .replace(
             /`([^`]*)`/g,
             "$1"
-        );
+        )
 
-
-    cleanText =
-        cleanText.replace(
+        .replace(
             /---+/g,
             ". "
-        );
+        )
 
-
-    cleanText =
-        cleanText.replace(
+        .replace(
             /#+\s?/g,
             ""
-        );
+        )
 
+        .trim();
 
-    return cleanText.trim();
 }
 
 
 /* =====================================================
-   SPEAK JARVIS
+   SPEAK
    ===================================================== */
 
 function speakJarvis(text) {
@@ -897,20 +1055,18 @@ function speakJarvis(text) {
 
 
     if (!text) {
+
         return;
+
     }
 
 
     speechSynthesis.cancel();
 
 
-    const cleanText =
-        cleanForSpeech(text);
-
-
     const utterance =
         new SpeechSynthesisUtterance(
-            cleanText
+            cleanForSpeech(text)
         );
 
 
@@ -940,7 +1096,8 @@ function speakJarvis(text) {
         utterance.lang =
             selectedJarvisVoice.lang;
 
-    } else {
+    }
+    else {
 
         utterance.lang =
             "en-GB";
@@ -989,7 +1146,9 @@ function speakJarvis(text) {
 async function askJarvis() {
 
     if (isProcessing) {
+
         return;
+
     }
 
 
@@ -1000,7 +1159,7 @@ async function askJarvis() {
     if (!userPrompt) {
 
         replyBox.textContent =
-            "Please enter a message, Vishnu.";
+            "Please enter a message.";
 
         return;
 
@@ -1031,46 +1190,55 @@ async function askJarvis() {
         "Jarvis is thinking...";
 
 
+    /*
+       Save user message.
+    */
+
+    addMemory(
+        "user",
+        userPrompt
+    );
+
+
     try {
 
 
-        /* =========================================
-           SEND TO CLOUDFLARE WORKER
-           ========================================= */
+        const memoryContext =
+            getMemoryContext();
+
 
         const response =
             await fetch(
                 WORKER_URL,
                 {
+
                     method: "POST",
 
                     headers: {
+
                         "Content-Type":
                             "application/json"
+
                     },
 
-                    body: JSON.stringify({
+                    body:
+                        JSON.stringify({
 
-                        prompt:
-                            userPrompt
+                            prompt:
+                                userPrompt,
 
-                    })
+                            memory:
+                                memoryContext
+
+                        })
 
                 }
             );
 
 
-        /* =========================================
-           READ RESPONSE
-           ========================================= */
-
         const data =
             await response.json();
 
-
-        /* =========================================
-           SERVER ERROR
-           ========================================= */
 
         if (!response.ok) {
 
@@ -1082,18 +1250,20 @@ async function askJarvis() {
         }
 
 
-        /* =========================================
-           GET REPLY
-           ========================================= */
-
         const jarvisReply =
             data.reply ||
             "Jarvis received no response.";
 
 
-        /* =========================================
-           DISPLAY REPLY
-           ========================================= */
+        /*
+           Save response.
+        */
+
+        addMemory(
+            "assistant",
+            jarvisReply
+        );
+
 
         replyBox.textContent =
             jarvisReply;
@@ -1107,17 +1277,35 @@ async function askJarvis() {
             "online";
 
 
-        /* =========================================
-           VOICE
-           ========================================= */
-
         speakJarvis(
             jarvisReply
         );
 
 
+        promptBox.value =
+            "";
+
     }
     catch (error) {
+
+        /*
+           If request failed,
+           remove last user message
+           so failed requests don't
+           become permanent memory.
+        */
+
+        if (
+            MEMORY.length &&
+            MEMORY[MEMORY.length - 1]
+                .role === "user"
+        ) {
+
+            MEMORY.pop();
+
+            saveMemory();
+
+        }
 
 
         brainStatus.textContent =
@@ -1136,7 +1324,6 @@ async function askJarvis() {
     }
     finally {
 
-
         isProcessing =
             false;
 
@@ -1154,6 +1341,41 @@ async function askJarvis() {
 
 
 /* =====================================================
+   SEND BUTTON
+   ===================================================== */
+
+sendButton.onclick =
+    function () {
+
+        askJarvis();
+
+    };
+
+
+/* =====================================================
+   CTRL + ENTER
+   ===================================================== */
+
+promptBox.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            event.key === "Enter" &&
+            event.ctrlKey
+        ) {
+
+            event.preventDefault();
+
+            askJarvis();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
    SPEECH RECOGNITION
    ===================================================== */
 
@@ -1162,185 +1384,231 @@ const SpeechRecognition =
     window.webkitSpeechRecognition;
 
 
-let recognition =
-    null;
+const SpeechRecognition =
+  window.SpeechRecognition ||
+  window.webkitSpeechRecognition;
 
-let isListening =
-    false;
-
+let recognition = null;
+let listening = false;
 
 if (SpeechRecognition) {
+  recognition = new SpeechRecognition();
 
-    recognition =
-        new SpeechRecognition();
+  recognition.lang = "en-IN";
+  recognition.continuous = false;
+  recognition.interimResults = false;
 
+  recognition.onstart = function () {
+    listening = true;
 
-    recognition.continuous =
-        false;
+    voiceStatus.textContent = "LISTENING";
+    micButton.textContent = "⏹️";
+  };
 
+  recognition.onresult = function (event) {
+    const transcript =
+      event.results[0][0].transcript;
 
-    recognition.interimResults =
-        false;
+    promptBox.value = transcript;
 
+    setTimeout(function () {
+      askJarvis();
+    }, 200);
+  };
 
-    recognition.lang =
-        "en-IN";
+  recognition.onerror = function (event) {
+    console.log("Speech recognition error:", event.error);
 
+    listening = false;
 
-    /* ===============================================
-       MIC START
-       =============================================== */
+    voiceStatus.textContent = "VOICE READY";
+    micButton.textContent = "🎙️";
+  };
 
-    recognition.onstart =
-        function () {
+  recognition.onend = function () {
+    listening = false;
 
-            isListening =
-                true;
-
-
-            micButton.textContent =
-                "⏹️";
-
-
-            micButton.classList.add(
-                "listening"
-            );
-
-
-            voiceStatus.textContent =
-                "LISTENING";
-
-        };
-
-
-    /* ===============================================
-       SPEECH RESULT
-       =============================================== */
-
-    recognition.onresult =
-        function (event) {
-
-            const transcript =
-                event
-                    .results[0][0]
-                    .transcript;
-
-
-            promptBox.value =
-                transcript;
-
-
-            /*
-               Automatically send
-               after speech recognition.
-            */
-
-            askJarvis();
-
-        };
-
-
-    /* ===============================================
-       MIC ERROR
-       =============================================== */
-
-    recognition.onerror =
-        function (event) {
-
-            console.log(
-                "Speech recognition error:",
-                event.error
-            );
-
-
-            stopListening();
-
-        };
-
-
-    /* ===============================================
-       MIC END
-       =============================================== */
-
-    recognition.onend =
-        function () {
-
-            stopListening();
-
-        };
-
+    voiceStatus.textContent = "VOICE READY";
+    micButton.textContent = "🎙️";
+  };
 }
 
 
-/* =====================================================
-   TOGGLE MICROPHONE
-   ===================================================== */
+// ================================
+// VOICE BUTTON
+// ================================
 
 function toggleListening() {
 
-    if (!recognition) {
+  if (!recognition) {
+    alert(
+      "Voice recognition is not supported in this browser."
+    );
+    return;
+  }
 
-        alert(
-            "Speech recognition is not supported in this browser."
-        );
-
-        return;
-
-    }
-
-
-    if (isListening) {
-
-        recognition.stop();
-
-        return;
-
-    }
-
-
+  if (listening) {
+    recognition.stop();
+  } else {
     try {
-
-        recognition.start();
-
+      recognition.start();
+    } catch (error) {
+      console.log("Recognition start error:", error);
     }
-    catch (error) {
-
-        console.log(error);
-
-    }
-
+  }
 }
 
 
-/* =====================================================
-   STOP LISTENING
-   ===================================================== */
+// ================================
+// MEMORY CLEAR BUTTON
+// ================================
 
-function stopListening() {
+const clearButton =
+  document.getElementById("clear-btn");
 
-    isListening =
-        false;
+if (clearButton) {
 
+  clearButton.onclick = function () {
 
-    micButton.textContent =
-        "🎙️";
-
-
-    micButton.classList.remove(
-        "listening"
+    const confirmClear = confirm(
+      "Clear Jarvis memory?"
     );
 
+    if (!confirmClear) return;
+
+    MEMORY = [];
+
+    saveMemory();
+
+    replyBox.textContent =
+      "Memory cleared. Fresh session ready, Boss.";
+
+    brainStatus.textContent =
+      "MEMORY CLEARED";
+
+    brainStatus.className =
+      "online";
+
+    speakJarvis(
+      "Memory cleared. Fresh session ready, Boss."
+    );
+  };
+}
+
+
+// ================================
+// CAMERA / VISION BUTTON
+// ================================
+
+const cameraButton =
+  document.getElementById("cam-btn");
+
+const imageInput =
+  document.getElementById("img-input");
+
+if (cameraButton && imageInput) {
+
+  cameraButton.onclick = function () {
+    imageInput.click();
+  };
+
+  imageInput.onchange = function (event) {
+
+    const file =
+      event.target.files[0];
+
+    if (!file) return;
+
+    const reader =
+      new FileReader();
+
+    reader.onload = function () {
+
+      window.jarvisVisionImage =
+        reader.result;
+
+      replyBox.textContent =
+        "Image ready for Jarvis Vision. Ask me about the image, Boss.";
+
+      brainStatus.textContent =
+        "VISION READY";
+
+      brainStatus.className =
+        "online";
+    };
+
+    reader.onerror = function () {
+
+      replyBox.textContent =
+        "Unable to read the image.";
+
+      brainStatus.textContent =
+        "VISION ERROR";
+
+      brainStatus.className =
+        "offline";
+    };
+
+    reader.readAsDataURL(file);
+  };
+}
+
+
+// ================================
+// CTRL + ENTER
+// ================================
+
+promptBox.addEventListener(
+  "keydown",
+  function (event) {
 
     if (
-        voiceStatus.textContent 
-<div class="footer">
-    JARVIS ONLINE • SECURE AI CORE
-</div>
+      event.key === "Enter" &&
+      event.ctrlKey
+    ) {
 
-</div>
+      event.preventDefault();
 
-<script src="script.js"></script>
+      askJarvis();
+    }
+  }
+);
+
+
+// ================================
+// INITIAL STATUS
+// ================================
+
+brainStatus.textContent =
+  "AI CORE ONLINE";
+
+brainStatus.className =
+  "online";
+
+voiceStatus.textContent =
+  "VOICE READY";
+
+
+// ================================
+// STARTUP MESSAGE
+// ================================
+
+window.addEventListener(
+  "load",
+  function () {
+
+    if (
+      replyBox &&
+      !replyBox.textContent.trim()
+    ) {
+
+      replyBox.textContent =
+        "Systems online. Awaiting your command, Boss.";
+    }
+  }
+);
+
+</script>
 
 </body>
-
 </html>
