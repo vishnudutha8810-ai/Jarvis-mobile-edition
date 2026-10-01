@@ -17,29 +17,23 @@ const WORKER_URL =
    ELEMENTS
    ===================================================== */
 
-const promptBox =
-    document.getElementById("prompt");
+const chat =
+    document.getElementById("chat");
 
-const replyBox =
-    document.getElementById("reply");
-
-const brainStatus =
-    document.getElementById("brainStatus");
-
-const voiceStatus =
-    document.getElementById("voiceStatus");
-
-const micButton =
-    document.getElementById("micButton");
+const input =
+    document.getElementById("msg");
 
 const sendButton =
-    document.getElementById("sendButton");
+    document.getElementById("send");
 
-const clearButton =
-    document.getElementById("clear-btn");
+const micButton =
+    document.getElementById("mic-btn");
 
 const cameraButton =
     document.getElementById("cam-btn");
+
+const clearButton =
+    document.getElementById("clear-btn");
 
 const imageInput =
     document.getElementById("img-input");
@@ -62,6 +56,11 @@ try {
         ) || [];
 
 } catch (error) {
+
+    console.error(
+        "Memory load error:",
+        error
+    );
 
     MEMORY = [];
 
@@ -100,14 +99,18 @@ function saveMemory() {
 function addMemory(role, text) {
 
     MEMORY.push({
+
         role: role,
+
         text: text,
+
         time: Date.now()
+
     });
 
+
     /*
-       Keep memory lightweight.
-       Latest 30 messages only.
+       Keep latest 30 messages.
     */
 
     if (MEMORY.length > 30) {
@@ -117,13 +120,14 @@ function addMemory(role, text) {
 
     }
 
+
     saveMemory();
 
 }
 
 
 /* =====================================================
-   BUILD MEMORY CONTEXT
+   MEMORY CONTEXT
    ===================================================== */
 
 function getMemoryContext() {
@@ -134,8 +138,9 @@ function getMemoryContext() {
 
     }
 
+
     return MEMORY
-        .map(item => {
+        .map(function (item) {
 
             return (
                 item.role.toUpperCase() +
@@ -163,20 +168,26 @@ if (clearButton) {
                     "Clear Jarvis memory?"
                 );
 
+
             if (!confirmed) {
 
                 return;
 
             }
 
+
             MEMORY = [];
+
 
             localStorage.removeItem(
                 MEMORY_KEY
             );
 
-            replyBox.textContent =
-                "Memory cleared successfully.";
+
+            addMessage(
+                "JARVIS: Memory cleared successfully, Boss.",
+                "ai"
+            );
 
         };
 
@@ -184,14 +195,50 @@ if (clearButton) {
 
 
 /* =====================================================
-   PROCESSING STATE
+   CHAT MESSAGE
+   ===================================================== */
+
+function addMessage(text, type) {
+
+    if (!chat) {
+
+        return;
+
+    }
+
+
+    const message =
+        document.createElement("div");
+
+
+    message.className =
+        "msg " + type;
+
+
+    message.innerText =
+        text;
+
+
+    chat.appendChild(
+        message
+    );
+
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
+}
+
+
+/* =====================================================
+   PROCESSING
    ===================================================== */
 
 let isProcessing = false;
 
 
 /* =====================================================
-   VOICE STATE
+   VOICE
    ===================================================== */
 
 let availableVoices = [];
@@ -213,9 +260,10 @@ function loadVoices() {
 
     }
 
+
     availableVoices =
-        window.speechSynthesis
-            .getVoices();
+        speechSynthesis.getVoices();
+
 
     selectedJarvisVoice =
         findBestJarvisVoice();
@@ -224,7 +272,7 @@ function loadVoices() {
 
 
 /* =====================================================
-   FIND BEST JARVIS VOICE
+   FIND JARVIS VOICE
    ===================================================== */
 
 function findBestJarvisVoice() {
@@ -235,13 +283,14 @@ function findBestJarvisVoice() {
 
     }
 
+
     const preferredNames = [
 
         "Google UK English Male",
         "Google US English",
         "Microsoft George",
-        "Microsoft Ryan Online",
-        "Microsoft Guy Online",
+        "Microsoft Ryan",
+        "Microsoft Guy",
         "Microsoft Daniel",
         "Daniel",
         "Alex",
@@ -258,7 +307,7 @@ function findBestJarvisVoice() {
 
         const voice =
             availableVoices.find(
-                voice => {
+                function (voice) {
 
                     return voice.name
                         .toLowerCase()
@@ -269,6 +318,7 @@ function findBestJarvisVoice() {
 
                 }
             );
+
 
         if (voice) {
 
@@ -281,10 +331,13 @@ function findBestJarvisVoice() {
 
     return (
         availableVoices.find(
-            voice =>
-                voice.lang
+            function (voice) {
+
+                return voice.lang
                     .toLowerCase()
-                    .startsWith("en")
+                    .startsWith("en");
+
+            }
         ) || null
     );
 
@@ -313,32 +366,38 @@ if (
 
 
 /* =====================================================
-   CLEAN TEXT FOR SPEECH
+   CLEAN SPEECH TEXT
    ===================================================== */
 
 function cleanForSpeech(text) {
 
     return text
+
         .replace(
             /\*\*(.*?)\*\*/g,
             "$1"
         )
+
         .replace(
             /\*(.*?)\*/g,
             "$1"
         )
+
         .replace(
             /`([^`]*)`/g,
             "$1"
         )
-        .replace(
-            /---+/g,
-            ". "
-        )
+
         .replace(
             /#+\s?/g,
             ""
         )
+
+        .replace(
+            /---+/g,
+            ". "
+        )
+
         .trim();
 
 }
@@ -354,18 +413,17 @@ function speakJarvis(text) {
         !("speechSynthesis" in window)
     ) {
 
-        voiceStatus.textContent =
-            "NOT SUPPORTED";
-
         return;
 
     }
+
 
     if (!text) {
 
         return;
 
     }
+
 
     speechSynthesis.cancel();
 
@@ -379,8 +437,10 @@ function speakJarvis(text) {
     utterance.rate =
         0.94;
 
+
     utterance.pitch =
         0.90;
+
 
     utterance.volume =
         1.0;
@@ -410,33 +470,6 @@ function speakJarvis(text) {
     }
 
 
-    utterance.onstart =
-        function () {
-
-            voiceStatus.textContent =
-                "SPEAKING";
-
-        };
-
-
-    utterance.onend =
-        function () {
-
-            voiceStatus.textContent =
-                "READY";
-
-        };
-
-
-    utterance.onerror =
-        function () {
-
-            voiceStatus.textContent =
-                "READY";
-
-        };
-
-
     speechSynthesis.speak(
         utterance
     );
@@ -458,13 +491,10 @@ async function askJarvis() {
 
 
     const userPrompt =
-        promptBox.value.trim();
+        input.value.trim();
 
 
     if (!userPrompt) {
-
-        replyBox.textContent =
-            "Please enter a message.";
 
         return;
 
@@ -478,24 +508,26 @@ async function askJarvis() {
     sendButton.disabled =
         true;
 
+
     sendButton.textContent =
         "THINKING...";
 
 
-    brainStatus.textContent =
-        "THINKING";
+    addMessage(
+        "YOU: " + userPrompt,
+        "user"
+    );
 
-    brainStatus.className =
-        "thinking";
 
-
-    replyBox.textContent =
-        "Jarvis is thinking...";
+    addMessage(
+        "J.A.R.V.I.S: Processing...",
+        "ai"
+    );
 
 
     /*
-       Save user message
-       */
+       Save user message.
+    */
 
     addMemory(
         "user",
@@ -506,26 +538,29 @@ async function askJarvis() {
     try {
 
         /*
-           Build memory context
-           */
+           Build memory context.
+        */
 
         const memoryContext =
             getMemoryContext();
 
 
         /*
-           Send to Worker
-           */
+           Send request to Worker.
+        */
 
         const response =
             await fetch(
                 WORKER_URL,
                 {
+
                     method: "POST",
 
                     headers: {
+
                         "Content-Type":
                             "application/json"
+
                     },
 
                     body:
@@ -563,8 +598,8 @@ async function askJarvis() {
 
 
         /*
-           Save Jarvis response
-           */
+           Save assistant response.
+        */
 
         addMemory(
             "assistant",
@@ -573,23 +608,29 @@ async function askJarvis() {
 
 
         /*
-           Display
-           */
+           Replace processing message.
+        */
 
-        replyBox.textContent =
-            jarvisReply;
+        const messages =
+            chat.querySelectorAll(
+                ".msg.ai"
+            );
 
 
-        brainStatus.textContent =
-            "ONLINE";
+        if (messages.length) {
 
-        brainStatus.className =
-            "online";
+            messages[
+                messages.length - 1
+            ].innerText =
+                "J.A.R.V.I.S: " +
+                jarvisReply;
+
+        }
 
 
         /*
-           Speak
-           */
+           Speak.
+        */
 
         speakJarvis(
             jarvisReply
@@ -597,23 +638,37 @@ async function askJarvis() {
 
 
         /*
-           Clear input
-           */
+           Clear input.
+        */
 
-        promptBox.value =
+        input.value =
             "";
 
 
     }
     catch (error) {
 
-        brainStatus.textContent =
-            "ERROR";
+        console.error(
+            "Jarvis error:",
+            error
+        );
 
 
-        replyBox.textContent =
-            "Connection error:\n\n" +
-            error.message;
+        const messages =
+            chat.querySelectorAll(
+                ".msg.ai"
+            );
+
+
+        if (messages.length) {
+
+            messages[
+                messages.length - 1
+            ].innerText =
+                "J.A.R.V.I.S: Connection error — " +
+                error.message;
+
+        }
 
     }
     finally {
@@ -625,8 +680,9 @@ async function askJarvis() {
         sendButton.disabled =
             false;
 
+
         sendButton.textContent =
-            "SEND";
+            "EXECUTE";
 
     }
 
@@ -634,10 +690,206 @@ async function askJarvis() {
 
 
 /* =====================================================
-   CAMERA / VISION
+   SEND BUTTON
    ===================================================== */
 
-if (cameraButton && imageInput) {
+if (sendButton) {
+
+    sendButton.onclick =
+        function () {
+
+            askJarvis();
+
+        };
+
+}
+
+
+/* =====================================================
+   ENTER KEY
+   ===================================================== */
+
+if (input) {
+
+    input.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                event.preventDefault();
+
+                askJarvis();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SPEECH RECOGNITION
+   ===================================================== */
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+let recognition = null;
+
+let listening = false;
+
+
+if (SpeechRecognition) {
+
+    recognition =
+        new SpeechRecognition();
+
+
+    recognition.lang =
+        "en-IN";
+
+
+    recognition.continuous =
+        false;
+
+
+    recognition.interimResults =
+        false;
+
+
+    recognition.onstart =
+        function () {
+
+            listening = true;
+
+            if (micButton) {
+
+                micButton.textContent =
+                    "⏹";
+
+            }
+
+        };
+
+
+    recognition.onresult =
+        function (event) {
+
+            const transcript =
+                event.results[0][0]
+                    .transcript;
+
+
+            input.value =
+                transcript;
+
+
+            askJarvis();
+
+        };
+
+
+    recognition.onerror =
+        function (event) {
+
+            console.error(
+                "Speech recognition error:",
+                event.error
+            );
+
+            listening =
+                false;
+
+
+            if (micButton) {
+
+                micButton.textContent =
+                    "🎙";
+
+            }
+
+        };
+
+
+    recognition.onend =
+        function () {
+
+            listening =
+                false;
+
+
+            if (micButton) {
+
+                micButton.textContent =
+                    "🎙";
+
+            }
+
+        };
+
+}
+
+
+/* =====================================================
+   MIC BUTTON
+   ===================================================== */
+
+if (micButton) {
+
+    micButton.onclick =
+        function () {
+
+            if (!recognition) {
+
+                alert(
+                    "Voice recognition is not supported in this browser."
+                );
+
+                return;
+
+            }
+
+
+            if (listening) {
+
+                recognition.stop();
+
+            } else {
+
+                try {
+
+                    recognition.start();
+
+                }
+                catch (error) {
+
+                    console.error(
+                        "Voice start error:",
+                        error
+                    );
+
+                }
+
+            }
+
+        };
+
+}
+
+
+/* =====================================================
+   CAMERA BUTTON
+   ===================================================== */
+
+if (
+    cameraButton &&
+    imageInput
+) {
 
     cameraButton.onclick =
         function () {
@@ -670,25 +922,19 @@ if (imageInput) {
             }
 
 
-            /*
-               For this step we prepare
-               the image locally.
-            */
-
-            replyBox.textContent =
-                "Image selected. Preparing vision analysis...";
+            addMessage(
+                "J.A.R.V.I.S: Image selected. Preparing vision analysis...",
+                "ai"
+            );
 
 
             try {
 
                 const base64 =
-                    await fileToBase64(file);
+                    await fileToBase64(
+                        file
+                    );
 
-
-                /*
-                   Store temporary image
-                   for the next vision step.
-                */
 
                 window.jarvisVisionImage = {
 
@@ -704,29 +950,30 @@ if (imageInput) {
                 };
 
 
-                replyBox.textContent =
-                    "Image ready for Jarvis Vision.";
+                addMessage(
+                    "J.A.R.V.I.S: Image ready for Jarvis Vision.",
+                    "ai"
+                );
+
 
                 /*
-                   Actual Gemini Vision
-                   request will be connected
-                   through the Worker in the
-                   next vision integration step.
+                   The actual Gemini Vision request
+                   requires the Worker to accept
+                   image data. We will connect that
+                   after the basic chat test passes.
                 */
 
             }
             catch (error) {
 
-                replyBox.textContent =
-                    "Image processing error:\n\n" +
-                    error.message;
+                addMessage(
+                    "J.A.R.V.I.S: Image processing error — " +
+                    error.message,
+                    "ai"
+                );
 
             }
 
-
-            /*
-               Allow selecting same image again.
-            */
 
             imageInput.value =
                 "";
@@ -738,7 +985,7 @@ if (imageInput) {
 
 
 /* =====================================================
-   FILE → BASE64
+   FILE TO BASE64
    ===================================================== */
 
 function fileToBase64(file) {
@@ -777,4 +1024,16 @@ function fileToBase64(file) {
             );
 
         }
-   
+    );
+
+}
+
+
+/* =====================================================
+   STARTUP
+   ===================================================== */
+
+addMessage(
+    "J.A.R.V.I.S: Systems online. Awaiting your command, Boss.",
+    "ai"
+);
